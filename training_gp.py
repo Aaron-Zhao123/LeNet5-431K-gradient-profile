@@ -23,7 +23,7 @@ class Usage(Exception):
 
 # Parameters
 learning_rate = 1e-4
-training_epochs = 200
+training_epochs = 300
 # training_epochs = 2
 batch_size = 128
 display_step = 1
@@ -518,7 +518,7 @@ def main(argv = None):
                                 print('Epoch is {}'.format(epoch))
                                 weights_info(training_cnt, c, train_accuracy, accuracy_mean)
                         # if (training_cnt == 10):
-                        if (accuracy_mean > 0.99 or epoch > 80):
+                        if (accuracy_mean > 0.99 or epoch > 300):
                             accuracy_list = np.zeros(30)
                             accuracy_mean = 0
                             print('Training ends')
@@ -527,7 +527,7 @@ def main(argv = None):
                                     y: mnist.test.labels[:],
                                     keep_prob: 1.})
                             print('test accuracy is {}'.format(test_accuracy))
-                            if (test_accuracy > 0.9936 or epoch > 80):
+                            if (test_accuracy > 0.9936 or epoch > 300):
                                 save_weights(weights, biases, parent_dir, file_name)
                                 return test_accuracy
                             else:
@@ -544,15 +544,12 @@ def main(argv = None):
                 save_weights(weights, biases, parent_dir, file_name)
             if (PRUNE_ONLY == True):
                 prune_weights(weights, biases, weights_mask, cRates, parent_dir)
-                accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-                test_accuracy = accuracy.eval({x: mnist.test.images, y: mnist.test.labels, keep_prob : 1.0})
-            if (TRAIN == False):
-                # Calculate accuracy
-                accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-                test_accuracy = accuracy.eval({x: mnist.test.images, y: mnist.test.labels, keep_prob : 1.0})
-                print("Accuracy:", test_accuracy)
-                with open('acc_log_10.txt','a') as f:
-                    f.write(str(test_accuracy)+'\n')
+            # Calculate accuracy
+            accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+            test_accuracy = accuracy.eval({x: mnist.test.images, y: mnist.test.labels, keep_prob : 1.0})
+            print("Accuracy:", test_accuracy)
+            with open('acc_log_10.txt','a') as f:
+                f.write(str(test_accuracy)+'\n')
             return test_accuracy
     except Usage, err:
         print >> sys.stderr, err.msg
