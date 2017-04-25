@@ -17,8 +17,8 @@ f_name = compute_file_name(cRates)
 print(f_name)
 while (cRates['cov2'] <= 22):
     iter_cnt = 0
-    cRates['cov2'] = cRates['cov2'] + 2.
-    rRates['cov2'] = rRates['cov2'] + 2.
+    cRates['cov2'] = cRates['cov2'] + 0.5
+    rRates['cov2'] = rRates['cov2'] + 0.5
     while (iter_cnt < 7):
         # Prune
         param = [
