@@ -11,12 +11,12 @@ def compute_file_name(p):
 
 acc_list = []
 run = 1
-cRates = {'cov1':0.,'cov2':0.,'fc1':0.,'fc2':0.}
+cRates = {'cov1':0.,'cov2':0.,'fc1':3.6,'fc2':0.}
 f_name = compute_file_name(cRates)
 print(f_name)
-while (cRates['fc1'] <= 3.6):
+while (cRates['fc1'] <= 4.):
     iter_cnt = 0
-    cRates['fc1'] = cRates['fc1'] + 0.2
+    cRates['fc1'] = cRates['fc1'] + 0.1
     while (iter_cnt < 7):
         # Prune
         param = [
