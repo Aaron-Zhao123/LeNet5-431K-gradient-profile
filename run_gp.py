@@ -14,7 +14,7 @@ run = 1
 cRates = {'cov1':0.,'cov2':0.,'fc1':0.,'fc2':0.}
 f_name = compute_file_name(cRates)
 print(f_name)
-while (run == 1):
+while (cRates['fc1'] <= 3.6):
     iter_cnt = 0
     cRates['fc1'] = cRates['fc1'] + 0.2
     while (iter_cnt < 7):
@@ -69,7 +69,7 @@ while (run == 1):
         ('-recover_rate', 0.01)
         ]
         acc = training_gp.main(param)
-        if (acc < 0.9936):
+        if (acc >= 0.9936):
             break
         else:
             iter_cnt += 1
