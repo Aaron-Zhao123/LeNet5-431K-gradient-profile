@@ -24,7 +24,7 @@ class Usage(Exception):
 # Parameters
 learning_rate = 1e-4
 training_epochs = 200
-training_epochs = 2
+# training_epochs = 2
 batch_size = 128
 display_step = 1
 
@@ -419,7 +419,7 @@ def main(argv = None):
 
         # Define loss and optimizer
         trainer = tf.train.AdamOptimizer(learning_rate=learning_rate)
-    	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(pred, y))
+    	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
 
         correct_prediction = tf.equal(tf.argmax(pred,1), tf.argmax(y,1))
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
