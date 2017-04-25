@@ -11,12 +11,14 @@ def compute_file_name(p):
 
 acc_list = []
 run = 1
-cRates = {'cov1':0.,'cov2':0.,'fc1':3.6,'fc2':0.}
+rRates = {'cov1':0.,'cov2':0.,'fc1': 2.,'fc2':0.}
+cRates = {'cov1':0.,'cov2':0.,'fc1': 2.,'fc2':0.}
 f_name = compute_file_name(cRates)
 print(f_name)
 while (cRates['fc1'] <= 4.):
     iter_cnt = 0
-    cRates['fc1'] = cRates['fc1'] + 0.1
+    cRates['fc1'] = cRates['fc1'] + 0.2
+    rRates['fc1'] = rRates['fc1'] + 0.2
     while (iter_cnt < 7):
         # Prune
         param = [
@@ -26,7 +28,7 @@ while (cRates['fc1'] <= 4.):
         ('-prune',True),
         ('-profile',False),
         ('-parent_dir', './'),
-        ('-recover_rate', 0.01),
+        ('-recover_rate', rRates),
         ('-first_read', iter_cnt == 0)
         ]
         _ = training_gp.main(param)
@@ -42,7 +44,7 @@ while (cRates['fc1'] <= 4.):
         ('-prune',False),
         ('-profile', True),
         ('-parent_dir', './'),
-        ('-recover_rate', 0.01)
+        ('-recover_rate', rRates)
         ]
         _ = training_gp.main(param)
 
@@ -54,7 +56,7 @@ while (cRates['fc1'] <= 4.):
         ('-prune',False),
         ('-profile', False),
         ('-parent_dir', './'),
-        ('-recover_rate', 0.01)
+        ('-recover_rate', rRates)
         ]
         _ = training_gp.main(param)
 
@@ -66,7 +68,7 @@ while (cRates['fc1'] <= 4.):
         ('-prune',False),
         ('-profile', False),
         ('-parent_dir', './'),
-        ('-recover_rate', 0.01)
+        ('-recover_rate', rRates)
         ]
         acc = training_gp.main(param)
         if (acc >= 0.9936):

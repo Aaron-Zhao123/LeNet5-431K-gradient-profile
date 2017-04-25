@@ -310,7 +310,7 @@ def recover_mask_gen(gradients, recover_rate):
     return mask
 
 
-def recover_weights(weights_mask, grad_probs):
+def recover_weights(weights_mask, grad_probs, recover_rates):
     keys = ['cov1','cov2','fc1','fc2']
     mask_info(weights_mask)
     prev = weights_mask['fc1']
@@ -322,7 +322,7 @@ def recover_weights(weights_mask, grad_probs):
         std_grad = np.std(grad_probs[key])
         # prob = np.abs(grad_probs[key]) / float(np.max(np.abs(grad_probs[key])))
         # mask = np.random.binomial(1, prob)
-        mask = np.abs(grad_probs[key]) > mean_grad + 2*std_grad
+        mask = np.abs(grad_probs[key]) > mean_grad + recover_rates[key] *std_grad
         mask.astype(int)
         weights_mask[key] = weights_mask[key] + mask
     mask_info(weights_mask)
@@ -364,10 +364,10 @@ def main(argv = None):
                 if (opt == '-activate_rate'):
                     reactivate_rate = val
                 if (opt == '-recover_rate'):
-                    recover_percent = val
+                    recover_rates = val
                 if (opt == '-first_read'):
                     first_read = val
-            print('pruning percentage for cov and fc are {}'.format(prune_thresholds))
+            print('pruning percentage for cov and fc are {}'.format(cRates))
         except getopt.error, msg:
             raise Usage(msg)
 
@@ -486,7 +486,7 @@ def main(argv = None):
                 for key in keys:
                     grad_mask_val[key] = collect_grads[key] * (1- weights_mask[key])
 
-                weights_mask = recover_weights(weights_mask, grad_mask_val)
+                weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
                 with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
                     pickle.dump(weights_mask, f)
                 # save_weights(weights, biases, parent_dir, file_name)
@@ -544,7 +544,7 @@ def main(argv = None):
                 save_weights(weights, biases, parent_dir, file_name)
             if (PRUNE_ONLY == True):
                 prune_weights(weights, biases, weights_mask, cRates, parent_dir)
-            # Calculate accuracy
+                # Calculate accuracy
             accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
             test_accuracy = accuracy.eval({x: mnist.test.images, y: mnist.test.labels, keep_prob : 1.0})
             print("Accuracy:", test_accuracy)
