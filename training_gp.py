@@ -56,8 +56,6 @@ def initialize_variables(parent_dir, model_number, weights_mask, profile = False
     with open(parent_dir+ model_number +'.pkl','rb') as f:
         wc1, wc2, wd1, out, bc1, bc2, bd1, bout = pickle.load(f)
     if (profile == True):
-        print(wc1.dtype)
-        print(weights_mask['cov1'].dtype)
         wc1 = wc1 * weights_mask['cov1']
         wc2 = wc2 * weights_mask['cov2']
         wd1 = wd1 * weights_mask['fc1']
@@ -66,7 +64,6 @@ def initialize_variables(parent_dir, model_number, weights_mask, profile = False
         wc2 = wc2.astype(np.float32)
         wd1 = wd1.astype(np.float32)
         out = out.astype(np.float32)
-        print(wc1.dtype)
     weights = {
         # 5x5 conv, 1 input, 32 outputs
         'cov1': tf.Variable(wc1,tf.float32),
@@ -332,15 +329,12 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
         # print(grad_probs[key])
         mean_grad = np.mean(grad_probs[key])
         std_grad = np.std(grad_probs[key])
-        # prob = np.abs(grad_probs[key]) / float(np.max(np.abs(grad_probs[key])))
-        # mask = np.random.binomial(1, prob)
-        if (key == 'fc1'):
-            print('mask grads, mean {}, std {}'.format(mean_grad,std_grad))
+        # if (key == 'fc1'):
+        #     print('mask grads, mean {}, std {}'.format(mean_grad,std_grad))
         mask = np.abs(grad_probs[key]) > mean_grad + recover_rates[key] *std_grad
         mask.astype(int)
         weights_mask[key] = weights_mask[key] + mask
     mask_info(weights_mask)
-    sys.exit()
 
     return (weights_mask)
 '''
