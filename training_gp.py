@@ -324,7 +324,7 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
         mask.astype(int)
         weights_mask[key] = weights_mask[key] + mask
     mask_info(weights_mask)
-    # sys.exit()
+    sys.exit()
 
     return (weights_mask)
 '''
