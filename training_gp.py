@@ -520,7 +520,9 @@ def main(argv = None):
                                 print('Epoch is {}'.format(epoch))
                                 weights_info(training_cnt, c, train_accuracy, accuracy_mean)
                                 prune_info(new_weights, 0)
+                                print('org weights')
                                 prune_info(weights, 0)
+                                sys.exit()
                         # if (training_cnt == 10):
                         if (accuracy_mean > 0.99 or epoch > 300):
                             accuracy_list = np.zeros(30)
@@ -586,7 +588,7 @@ def prune_info(weights, counting):
         (non_zeros, total) = calculate_non_zero_weights(weights['cov2'].eval())
         print('cov2 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
-        print('fc1 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
+        print('fc1 has prunned {} percent of its weights'.format((total-non_zeros)*100/float(total)))
         (non_zeros, total) = calculate_non_zero_weights(weights['fc2'].eval())
         print('fc2 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
     if (counting == 1):
