@@ -236,7 +236,7 @@ def mask_gradients(weights, grads_and_names, weight_masks):
         index = 0
         for key in keys:
             if (weights[key]== var_name):
-                print('hi')
+                # print('hi')
                 new_grads.append((grad,var_name))
                 grad_values.append(grad)
                 flag = 1
@@ -317,6 +317,7 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
     for key in keys:
         # find top 10 percentile
         # mask = recover_mask_gen(grad_probs[key], 10)
+        print(grad_probs[key])
         mean_grad = np.mean(grad_probs[key])
         std_grad = np.std(grad_probs[key])
         # prob = np.abs(grad_probs[key]) / float(np.max(np.abs(grad_probs[key])))
