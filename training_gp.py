@@ -435,7 +435,7 @@ def main(argv = None):
         org_grads = trainer.compute_gradients(cost, gate_gradients = trainer.GATE_OP)
 
         org_grads = [(ClipIfNotNone(grad), var) for grad, var in org_grads]
-        (new_grads,grad_values) = mask_gradients(weights, org_grads, weights_mask)
+        (new_grads,grad_values) = mask_gradients(new_weights, org_grads, weights_mask)
 
         train_step = trainer.apply_gradients(new_grads)
 
