@@ -474,6 +474,7 @@ def main(argv = None):
                                 x: batch_x,
                                 y: batch_y,
                                 keep_prob: 1.})
+                    print(fetched_grads[0])
                     if (i == 0):
                         # print to log info
                         index = 0
