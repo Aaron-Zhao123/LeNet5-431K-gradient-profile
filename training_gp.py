@@ -56,7 +56,6 @@ def initialize_variables(parent_dir, model_number, weights_mask, profile = False
     with open(parent_dir+ model_number +'.pkl','rb') as f:
         wc1, wc2, wd1, out, bc1, bc2, bd1, bout = pickle.load(f)
     if (profile == True):
-        print('hihihi')
         wc1 = wc1 * weights_mask['cov1']
         wc2 = wc2 * weights_mask['cov2']
         wd1 = wd1 * weights_mask['fc1']
@@ -421,9 +420,9 @@ def main(argv = None):
                 (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, PROFILE)
             else:
                 rfile_name = compute_file_name(cRates)
-                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name, weights_mask)
+                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name, weights_mask, PROFILE)
         else:
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, PROFILE)
 
         # Construct model
 
