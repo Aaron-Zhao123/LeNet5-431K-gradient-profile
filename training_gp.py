@@ -62,20 +62,20 @@ def initialize_variables(parent_dir, model_number, weights_mask, profile = False
         out = out * weights_mask['fc2']
     weights = {
         # 5x5 conv, 1 input, 32 outputs
-        'cov1': tf.Variable(wc1),
+        'cov1': tf.Variable(wc1,tf.float32),
         # 5x5 conv, 32 inputs, 64 outputs
-        'cov2': tf.Variable(wc2),
+        'cov2': tf.Variable(wc2,tf.float32),
         # fully connected, 7*7*64 inputs, 1024 outputs
-        'fc1': tf.Variable(wd1),
+        'fc1': tf.Variable(wd1,tf.float32),
         # 1024 inputs, 10 outputs (class prediction)
-        'fc2': tf.Variable(out)
+        'fc2': tf.Variable(out,tf.float32)
     }
 
     biases = {
-        'cov1': tf.Variable(bc1),
-        'cov2': tf.Variable(bc2),
-        'fc1': tf.Variable(bd1),
-        'fc2': tf.Variable(bout)
+        'cov1': tf.Variable(bc1,tf.float32),
+        'cov2': tf.Variable(bc2,tf.float32),
+        'fc1': tf.Variable(bd1,tf.float32),
+        'fc2': tf.Variable(bout,tf.float32)
     }
     return (weights, biases)
 # weights = {
