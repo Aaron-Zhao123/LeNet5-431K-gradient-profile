@@ -234,8 +234,9 @@ def mask_gradients(weights, grads_and_names, weight_masks):
         # flag set if found a match
         flag = 0
         index = 0
+        print(var_name)
+        print(weights['fc1'])
         for key in keys:
-            print(var_name)
             if (weights[key]== var_name):
                 new_grads.append((grad,var_name))
                 grad_values.append(grad)
