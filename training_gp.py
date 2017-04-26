@@ -474,6 +474,7 @@ def main(argv = None):
                                 x: batch_x,
                                 y: batch_y,
                                 keep_prob: 1.})
+                    print('my fetched grads')
                     print(fetched_grads[0])
                     if (i == 0):
                         # print to log info
@@ -488,6 +489,8 @@ def main(argv = None):
                             collect_grads[key] = fetched_grads[index] + collect_grads[key]
                             index = index + 1
                 # weights inicated 1 in the hard mask can never be recovered
+                    print('my collected grads')
+                    print(collect_grads['cov1'])
                 grad_mask_val = {}
                 for key in keys:
                     grad_mask_val[key] = collect_grads[key] * (1- weights_mask[key])
