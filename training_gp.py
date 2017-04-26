@@ -421,8 +421,12 @@ def main(argv = None):
 
         keys = ['cov1','cov2','fc1','fc2']
         new_weights = {}
-        for key in keys:
-            new_weights[key] = weights[key] * weights_mask[key]
+        if (PROFILE):
+            for key in keys:
+                new_weights[key] = weights[key] 
+        else:
+            for key in keys:
+                new_weights[key] = weights[key] * weights_mask[key]
 
         pred, pool = conv_network(x_image, new_weights, biases, keep_prob)
 
@@ -490,7 +494,7 @@ def main(argv = None):
                 grad_mask_val = {}
                 keys = ['cov1','cov2','fc1','fc2']
                 for key in keys:
-                    grad_mask_val[key] = np.multiply (1e5*collect_grads[key],(1 - weights_mask[key]))
+                    grad_mask_val[key] = np.multiply (collect_grads[key],(1 - weights_mask[key]))
                 print('my mask')
                 non_zeros,size =calculate_non_zero_weights(1-weights_mask['cov2'])
                 print(non_zeros)
