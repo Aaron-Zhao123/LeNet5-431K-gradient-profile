@@ -490,8 +490,9 @@ def main(argv = None):
                 print('my collected grads')
                 print(collect_grads['cov2'])
                 grad_mask_val = {}
+                keys = ['cov1','cov2','fc1','fc2']
                 for key in keys:
-                    grad_mask_val[key] = collect_grads[key] * (1- weights_mask[key])
+                    grad_mask_val[key] = collect_grads[key]*(1 - weights_mask[key])
                 print('my mask')
                 print(weights_mask['cov2'])
                 print('my masked grads')
