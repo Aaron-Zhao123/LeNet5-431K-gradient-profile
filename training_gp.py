@@ -421,11 +421,9 @@ def main(argv = None):
         keys = ['cov1','cov2','fc1','fc2']
         mask_tfcon = {}
         for key in keys:
-            print(np.shape(weights_mask[key]))
-            mask_tfcon[key] = tf.constant(weights_mask[key], tf.float32)
-            weights[key] = weights[key] * mask_tfcon[key]
+            new_weights[key] = weights[key] * weights_mask[key]
 
-        pred, pool = conv_network(x_image, weights, biases, keep_prob)
+        pred, pool = conv_network(x_image, new_weights, biases, keep_prob)
 
         # Define loss and optimizer
         trainer = tf.train.AdamOptimizer(learning_rate=learning_rate)
