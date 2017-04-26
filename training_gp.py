@@ -487,16 +487,16 @@ def main(argv = None):
                             collect_grads[key] = fetched_grads[index] + collect_grads[key]
                             index = index + 1
                 # weights inicated 1 in the hard mask can never be recovered
-                print('my collected grads')
-                print(collect_grads['cov2'])
                 grad_mask_val = {}
                 keys = ['cov1','cov2','fc1','fc2']
                 for key in keys:
                     grad_mask_val[key] = collect_grads[key]*(1 - weights_mask[key])
                 print('my mask')
-                print(weights_mask['cov2'])
+                non_zeros,size =calculate_non_zero_weights(1-weights_mask['cov2'])
+                print(non_zeros)
                 print('my masked grads')
-                print(grad_mask_val['cov2'])
+                non_zeros,size =calculate_non_zero_weights(grad_mask_val['cov2'])
+                print(non_zeros)
 
                 weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
                 with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
