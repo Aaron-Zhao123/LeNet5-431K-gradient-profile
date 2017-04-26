@@ -235,8 +235,8 @@ def mask_gradients(weights, grads_and_names, weight_masks):
         flag = 0
         index = 0
         for key in keys:
+            print(var_name)
             if (weights[key]== var_name):
-                print(var_name)
                 new_grads.append((grad,var_name))
                 grad_values.append(grad)
                 flag = 1
@@ -435,7 +435,7 @@ def main(argv = None):
         org_grads = trainer.compute_gradients(cost, gate_gradients = trainer.GATE_OP)
 
         org_grads = [(ClipIfNotNone(grad), var) for grad, var in org_grads]
-        (new_grads,grad_values) = mask_gradients(new_weights, org_grads, weights_mask)
+        (new_grads,grad_values) = mask_gradients(weights, org_grads, weights_mask)
 
         train_step = trainer.apply_gradients(new_grads)
 
