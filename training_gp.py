@@ -533,7 +533,7 @@ def main(argv = None):
                                     keep_prob: 1.})
                             print('test accuracy is {}'.format(test_accuracy))
                             if (test_accuracy > 0.9936 or epoch > 300):
-                                save_weights(weights, biases, parent_dir, file_name)
+                                save_weights(new_weights, biases, parent_dir, file_name)
                                 return test_accuracy
                             else:
                                 pass
@@ -546,9 +546,9 @@ def main(argv = None):
                 print("Optimization Finished!")
                 # Test model
             if (TRAIN == True):
-                save_weights(weights, biases, parent_dir, file_name)
+                save_weights(new_weights, biases, parent_dir, file_name)
             if (PRUNE_ONLY == True):
-                prune_weights(weights, biases, weights_mask, cRates, parent_dir)
+                prune_weights(new_weights, biases, weights_mask, cRates, parent_dir)
                 # Calculate accuracy
             accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
             test_accuracy = accuracy.eval({x: mnist.test.images, y: mnist.test.labels, keep_prob : 1.0})
