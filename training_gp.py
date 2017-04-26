@@ -56,10 +56,13 @@ def initialize_variables(parent_dir, model_number, weights_mask, profile = False
     with open(parent_dir+ model_number +'.pkl','rb') as f:
         wc1, wc2, wd1, out, bc1, bc2, bd1, bout = pickle.load(f)
     if (profile == True):
+        print(wc1.dtype)
+        print(weights_mask['cov1'].dtype)
         wc1 = wc1 * weights_mask['cov1']
         wc2 = wc2 * weights_mask['cov2']
         wd1 = wd1 * weights_mask['fc1']
         out = out * weights_mask['fc2']
+        print(wc1.dtype)
     weights = {
         # 5x5 conv, 1 input, 32 outputs
         'cov1': tf.Variable(wc1,tf.float32),
