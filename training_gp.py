@@ -242,7 +242,7 @@ def mask_gradients(weights, grads_and_names, weight_masks):
         # if flag is not set
         if (flag == 0):
             new_grads.append((grad,var_name))
-            # grad_values.append(grad)
+            grad_values.append(grad)
         # print(grad.get_shape())
     return (new_grads,grad_values)
 
