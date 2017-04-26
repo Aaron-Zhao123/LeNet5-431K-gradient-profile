@@ -419,7 +419,7 @@ def main(argv = None):
         # Construct model
 
         keys = ['cov1','cov2','fc1','fc2']
-        mask_tfcon = {}
+        new_weights = {}
         for key in keys:
             new_weights[key] = weights[key] * weights_mask[key]
 
