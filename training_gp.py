@@ -15,7 +15,7 @@ import pickle
 import scipy.io as sio
 import random
 import sys
-np.set_printoptions(threshold='nan')
+# np.set_printoptions(threshold='nan')
 
 class Usage(Exception):
     def __init__ (self,msg):
