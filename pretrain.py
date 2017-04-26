@@ -12,6 +12,7 @@ open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
 open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
 open_file_name = 'weights/weightcov0cov0fc0fc0.pkl'
 mask_file_name = 'masks/maskcov0cov0fc0fc0.pkl'
+MASK_ENABLE = False
 # open_file_name = 'weights_log/pcov90pfc90'+'.pkl'
 # open_file_name = 'weights_log/weights2.pkl'
 Test = True;
@@ -87,11 +88,12 @@ def initialize_variables():
         'fc1': tf.Variable(bd1),
         'fc2': tf.Variable(bout)
     }
-    # with open(mask_file_name, 'rb') as f:
-    #     mask = pickle.load(f)
-    keys = ['cov1', 'cov2', 'fc1', 'fc2']
-    for key in keys:
-        weights[key] = mask[key] * weights[key]
+    if (MASK_ENABLE):
+      with open(mask_file_name, 'rb') as f:
+          mask = pickle.load(f)
+      keys = ['cov1', 'cov2', 'fc1', 'fc2']
+      for key in keys:
+          weights[key] = mask[key] * weights[key]
 
     return (weights, biases)
 def weight_variable(shape):
