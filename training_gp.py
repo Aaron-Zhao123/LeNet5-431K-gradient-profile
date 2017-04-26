@@ -236,13 +236,14 @@ def mask_gradients(weights, grads_and_names, weight_masks):
         index = 0
         for key in keys:
             if (weights[key]== var_name):
+                print(var_name)
                 new_grads.append((grad,var_name))
                 grad_values.append(grad)
                 flag = 1
         # if flag is not set
         if (flag == 0):
             new_grads.append((grad,var_name))
-            grad_values.append(grad)
+            # grad_values.append(grad)
         # print(grad.get_shape())
     return (new_grads,grad_values)
 
