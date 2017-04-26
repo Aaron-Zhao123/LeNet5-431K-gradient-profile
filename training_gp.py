@@ -417,6 +417,11 @@ def main(argv = None):
             (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name)
 
         # Construct model
+
+        keys = ['cov1','cov2','fc1','fc2']
+        for key in keys:
+            weights[key] = weights[key] * weights_mask[key]
+
         pred, pool = conv_network(x_image, weights, biases, keep_prob)
 
         # Define loss and optimizer
@@ -445,8 +450,8 @@ def main(argv = None):
             keys = ['cov1','cov2','fc1','fc2']
 
             # retain the masks on the weights
-            for key in keys:
-                sess.run(weights[key].assign(weights[key].eval()*weights_mask[key]))
+            # for key in keys:
+            #     sess.run(weights[key].assign(weights[key].eval()*weights_mask[key]))
 
 
             prune_info(weights,1)
