@@ -419,8 +419,10 @@ def main(argv = None):
         # Construct model
 
         keys = ['cov1','cov2','fc1','fc2']
+        mask_tfcon = {}
         for key in keys:
-            weights[key] = weights[key] * weights_mask[key]
+            mask_tfcon[key] = tf.constant(weights_mask[key], tf.float32)
+            weights[key] = weights[key] * mask_tfcon[key]
 
         pred, pool = conv_network(x_image, weights, biases, keep_prob)
 
