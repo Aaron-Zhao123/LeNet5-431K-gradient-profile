@@ -237,8 +237,9 @@ def mask_gradients(weights, grads_and_names, weight_masks):
         for key in keys:
             if (weights[key]== var_name):
                 # print(key, weights[key].name, var_name)
-                mask = weight_masks[key]
-                new_grads.append((tf.multiply(tf.constant(mask, dtype = tf.float32),grad),var_name))
+                # mask = weight_masks[key]
+                # new_grads.append((tf.multiply(tf.constant(mask, dtype = tf.float32),grad),var_name))
+                new_grads.append((grad,var_name))
                 grad_values.append(grad)
                 flag = 1
         # if flag is not set
@@ -430,9 +431,9 @@ def main(argv = None):
         org_grads = trainer.compute_gradients(cost, var_list = variables, gate_gradients = trainer.GATE_OP)
 
         org_grads = [(ClipIfNotNone(grad), var) for grad, var in org_grads]
-        # (new_grads,grad_values) = mask_gradients(weights, org_grads, weights_mask)
+        (new_grads,grad_values) = mask_gradients(weights, org_grads, weights_mask)
 
-        train_step = trainer.apply_gradients(org_grads)
+        train_step = trainer.apply_gradients(new_grads)
 
 
         init = tf.initialize_all_variables()
