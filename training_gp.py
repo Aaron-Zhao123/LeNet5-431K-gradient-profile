@@ -317,13 +317,13 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
     for key in keys:
         # find top 10 percentile
         # mask = recover_mask_gen(grad_probs[key], 10)
-        print(grad_probs[key])
+        # print(grad_probs[key])
         mean_grad = np.mean(grad_probs[key])
         std_grad = np.std(grad_probs[key])
         # prob = np.abs(grad_probs[key]) / float(np.max(np.abs(grad_probs[key])))
         # mask = np.random.binomial(1, prob)
-        # if (key == 'fc1'):
-            # print('mask grads, mean {}, std {}'.format(mean_grad,std_grad))
+        if (key == 'fc1'):
+            print('mask grads, mean {}, std {}'.format(mean_grad,std_grad))
         mask = np.abs(grad_probs[key]) > mean_grad + recover_rates[key] *std_grad
         mask.astype(int)
         weights_mask[key] = weights_mask[key] + mask
