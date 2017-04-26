@@ -10,8 +10,8 @@ np.set_printoptions(precision=128)
 # open_file_name = 'weights_log_asyn/pcov93pcov93pfc100pfc93'+'.pkl'
 open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
 open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
-open_file_name = 'weights/weightcov0cov0fc40fc0.pkl'
-mask_file_name = 'masks/maskcov0cov0fc40fc0.pkl'
+open_file_name = 'weights/weightcov0cov0fc0fc0.pkl'
+mask_file_name = 'masks/maskcov0cov0fc0fc0.pkl'
 # open_file_name = 'weights_log/pcov90pfc90'+'.pkl'
 # open_file_name = 'weights_log/weights2.pkl'
 Test = True;
@@ -87,8 +87,8 @@ def initialize_variables():
         'fc1': tf.Variable(bd1),
         'fc2': tf.Variable(bout)
     }
-    with open(mask_file_name, 'rb') as f:
-        mask = pickle.load(f)
+    # with open(mask_file_name, 'rb') as f:
+    #     mask = pickle.load(f)
     keys = ['cov1', 'cov2', 'fc1', 'fc2']
     for key in keys:
         weights[key] = mask[key] * weights[key]
