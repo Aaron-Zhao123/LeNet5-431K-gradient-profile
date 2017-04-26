@@ -52,7 +52,7 @@ ENABLE_PRUNING = 0
 # Store layers weight & bias
 # def initialize_tf_variables(first_time_training):
 #     if (first_time_training):
-def initialize_variables(parent_dir, model_number, profile = False, weights_mask = none):
+def initialize_variables(parent_dir, model_number, weights_mask, profile = False):
     with open(parent_dir+ model_number +'.pkl','rb') as f:
         wc1, wc2, wd1, out, bc1, bc2, bd1, bout = pickle.load(f)
     if (profile):
@@ -410,14 +410,14 @@ def main(argv = None):
 
         x_image = tf.reshape(x,[-1,28,28,1])
         if (TRAIN == True):
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask)
         elif (PROFILE == True):
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, PROFILE, weights_mask)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, PROFILE)
         elif (PRUNE_ONLY == True):
             print(first_read)
             if (first_read == True):
                 print(file_name)
-                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name)
+                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask)
             else:
                 rfile_name = compute_file_name(cRates)
                 (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name)
