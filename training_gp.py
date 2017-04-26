@@ -63,9 +63,9 @@ def initialize_variables(parent_dir, model_number, weights_mask, profile = False
         wd1 = wd1 * weights_mask['fc1']
         out = out * weights_mask['fc2']
         wc1 = wc1.astype(np.float32)
-        wc2.astype(np.float32)
-        wd1.astype(np.float32)
-        out.astype(np.float32)
+        wc2 = wc2.astype(np.float32)
+        wd1 = wd1.astype(np.float32)
+        out = out.astype(np.float32)
         print(wc1.dtype)
     weights = {
         # 5x5 conv, 1 input, 32 outputs
