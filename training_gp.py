@@ -493,7 +493,7 @@ def main(argv = None):
                 for key in keys:
                     grad_mask_val[key] = collect_grads[key] * (1- weights_mask[key])
                 print('my masked grads')
-                print(grad_mask_val['cov2'])
+                print(grad_mask_val['cov1'])
 
                 weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
                 with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
