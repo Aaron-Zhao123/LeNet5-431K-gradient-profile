@@ -55,7 +55,8 @@ ENABLE_PRUNING = 0
 def initialize_variables(parent_dir, model_number, weights_mask, profile = False):
     with open(parent_dir+ model_number +'.pkl','rb') as f:
         wc1, wc2, wd1, out, bc1, bc2, bd1, bout = pickle.load(f)
-    if (profile):
+    if (profile == True):
+        print('hihihi')
         wc1 = wc1 * weights_mask['cov1']
         wc2 = wc2 * weights_mask['cov2']
         wd1 = wd1 * weights_mask['fc1']
