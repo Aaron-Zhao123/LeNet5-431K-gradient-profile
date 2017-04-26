@@ -490,7 +490,7 @@ def main(argv = None):
                 grad_mask_val = {}
                 keys = ['cov1','cov2','fc1','fc2']
                 for key in keys:
-                    grad_mask_val[key] = collect_grads[key]*(1 - weights_mask[key])
+                    grad_mask_val[key] = np.multiply (collect_grads[key],(1 - weights_mask[key]))
                 print('my mask')
                 non_zeros,size =calculate_non_zero_weights(1-weights_mask['cov2'])
                 print(non_zeros)
@@ -500,7 +500,7 @@ def main(argv = None):
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
                 print(non_zeros)
                 print(collect_grads['cov2'].shape)
-                
+
                 print('my masked grads')
                 non_zeros,size =calculate_non_zero_weights(grad_mask_val['cov2'])
                 print(non_zeros)
