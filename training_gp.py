@@ -522,7 +522,7 @@ def main(argv = None):
                                 prune_info(new_weights, 0)
                                 print('org weights')
                                 prune_info(weights, 0)
-                                sys.exit()
+                                # sys.exit()
                         # if (training_cnt == 10):
                         if (accuracy_mean > 0.99 or epoch > 300):
                             accuracy_list = np.zeros(30)
