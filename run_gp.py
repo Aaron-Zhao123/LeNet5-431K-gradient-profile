@@ -17,7 +17,7 @@ f_name = compute_file_name(cRates)
 print(f_name)
 while (cRates['cov2'] <= 5):
     iter_cnt = 0
-    rRates['fc1'] = 10.0
+    rRates['fc1'] = 5.0
     cRates['cov2'] = cRates['cov2'] + 0.5
     rRates['cov2'] = rRates['cov2'] + 0.5
     while (iter_cnt < 7):
