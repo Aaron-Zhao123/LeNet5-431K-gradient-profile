@@ -326,6 +326,7 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
         mask.astype(int)
         weights_mask[key] = weights_mask[key] + mask
     mask_info(weights_mask)
+    sys.exit()
 
     return (weights_mask)
 '''
@@ -461,16 +462,14 @@ def main(argv = None):
             if (PROFILE == True):
                 print("profile for pruning...")
                 total_batch = int(mnist.train.num_examples/batch_size)
-                for i in range(20):
+                for i in range(200):
                     batch_x, batch_y = mnist.train.next_batch(batch_size)
                     _, fetched_grads = sess.run([train_step, grad_values], feed_dict = {
                                 x: batch_x,
                                 y: batch_y,
-                                keep_prob: 0.8})
+                                keep_prob: 1.})
                     if (i == 0):
                         # print to log info
-                        print(np.shape(fetched_grads[0]))
-                        print(np.shape(fetched_grads[1]))
                         index = 0
                         collect_grads = {}
                         for key in keys:
