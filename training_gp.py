@@ -430,9 +430,9 @@ def main(argv = None):
         org_grads = trainer.compute_gradients(cost, var_list = variables, gate_gradients = trainer.GATE_OP)
 
         org_grads = [(ClipIfNotNone(grad), var) for grad, var in org_grads]
-        (new_grads,grad_values) = mask_gradients(weights, org_grads, weights_mask)
+        # (new_grads,grad_values) = mask_gradients(weights, org_grads, weights_mask)
 
-        train_step = trainer.apply_gradients(new_grads)
+        train_step = trainer.apply_gradients(org_grads)
 
 
         init = tf.initialize_all_variables()
@@ -513,6 +513,7 @@ def main(argv = None):
                             accuracy_list = np.concatenate((np.array([train_accuracy]),accuracy_list[0:29]))
                             accuracy_mean = np.mean(accuracy_list)
                             if (training_cnt % 100 == 0):
+                                print(cRates)
                                 print('accuracy mean is {}'.format(accuracy_mean))
                                 print('Epoch is {}'.format(epoch))
                                 weights_info(training_cnt, c, train_accuracy, accuracy_mean)
