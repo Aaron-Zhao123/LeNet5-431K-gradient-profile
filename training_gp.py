@@ -410,19 +410,19 @@ def main(argv = None):
 
         x_image = tf.reshape(x,[-1,28,28,1])
         if (TRAIN == True):
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, PROFILE)
         elif (PROFILE == True):
             (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, PROFILE)
         elif (PRUNE_ONLY == True):
             print(first_read)
             if (first_read == True):
                 print(file_name)
-                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask)
+                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, PROFILE)
             else:
                 rfile_name = compute_file_name(cRates)
-                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name)
+                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name, weights_mask)
         else:
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask)
 
         # Construct model
 
