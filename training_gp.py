@@ -474,8 +474,6 @@ def main(argv = None):
                                 x: batch_x,
                                 y: batch_y,
                                 keep_prob: 1.})
-                    print('my fetched grads')
-                    print(fetched_grads[0])
                     if (i == 0):
                         # print to log info
                         index = 0
@@ -495,7 +493,7 @@ def main(argv = None):
                 for key in keys:
                     grad_mask_val[key] = collect_grads[key] * (1- weights_mask[key])
                 print('my masked grads')
-                print(grad_mask_val['cov1'])
+                print(grad_mask_val['cov2'])
 
                 weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
                 with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
