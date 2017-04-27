@@ -15,12 +15,12 @@ rRates = {'cov1':0.,'cov2':0.,'fc1': 3.,'fc2':0.}
 cRates = {'cov1':0.,'cov2':0.,'fc1': 2.,'fc2':0.}
 f_name = compute_file_name(cRates)
 print(f_name)
-while (cRates['cov2'] <= 4.):
+while (cRates['fc1'] <= 4.):
     iter_cnt = 0
-    cRates['cov2'] = cRates['cov2'] + 1.
-    rRates['cov2'] = rRates['cov2'] + 1.
-    # cRates['fc1'] = cRates['fc1'] + 1.
-    # rRates['fc1'] = cRates['fc1'] + 1.
+    # cRates['cov2'] = cRates['cov2'] + 1.
+    # rRates['cov2'] = rRates['cov2'] + 1.
+    cRates['fc1'] = cRates['fc1'] + 0.2
+    rRates['fc1'] = cRates['fc1'] + 0.2
     while (iter_cnt < 7):
         # Prune
         param = [
