@@ -11,8 +11,8 @@ def compute_file_name(p):
 
 acc_list = []
 run = 1
-rRates = {'cov1':0.,'cov2':1.,'fc1': 4.,'fc2':0.}
-cRates = {'cov1':0.,'cov2':1.,'fc1': 4.,'fc2':0.}
+rRates = {'cov1':0.,'cov2':0.,'fc1': 4.,'fc2':0.}
+cRates = {'cov1':0.,'cov2':0.,'fc1': 4.,'fc2':0.}
 f_name = compute_file_name(cRates)
 print(f_name)
 while (cRates['cov2'] <= 4.):
