@@ -23,6 +23,10 @@ while (cRates['cov2'] <= 4.):
     # rRates['fc1'] = rRates['fc1'] + 1.
     while (iter_cnt < 7):
         # Prune
+        if (iter_cnt > 4):
+            learning_rate = 1e-5
+        else:
+            learning_rate = 1e-4
         param = [
         ('-thresholds',cRates),
         ('-file_name',f_name),
@@ -31,7 +35,8 @@ while (cRates['cov2'] <= 4.):
         ('-profile',False),
         ('-parent_dir', './'),
         ('-recover_rate', rRates),
-        ('-first_read', iter_cnt == 0)
+        ('-first_read', iter_cnt == 0),
+        ('-learning_rate', learning_rate)
         ]
         _ = training_gp.main(param)
 
@@ -46,7 +51,8 @@ while (cRates['cov2'] <= 4.):
         ('-prune',False),
         ('-profile', True),
         ('-parent_dir', './'),
-        ('-recover_rate', rRates)
+        ('-recover_rate', rRates),
+        ('-learning_rate', learning_rate)
         ]
         _ = training_gp.main(param)
 
@@ -58,7 +64,8 @@ while (cRates['cov2'] <= 4.):
         ('-prune',False),
         ('-profile', False),
         ('-parent_dir', './'),
-        ('-recover_rate', rRates)
+        ('-recover_rate', rRates),
+        ('-learning_rate', learning_rate)
         ]
         _ = training_gp.main(param)
 

@@ -376,6 +376,8 @@ def main(argv = None):
                     recover_rates = val
                 if (opt == '-first_read'):
                     first_read = val
+                if (opt == '-learning_rate'):
+                    learning_rate = val
             print('pruning percentage for cov and fc are {}'.format(cRates))
         except getopt.error, msg:
             raise Usage(msg)
