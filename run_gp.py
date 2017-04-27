@@ -14,6 +14,7 @@ run = 1
 rRates = {'cov1':0.,'cov2':0.,'fc1': 4.,'fc2':0.}
 cRates = {'cov1':0.,'cov2':0.,'fc1': 4.5,'fc2':0.}
 f_name = compute_file_name(cRates)
+learning_rate = 1e-4
 print(f_name)
 while (cRates['cov2'] <= 4.):
     iter_cnt = 0
