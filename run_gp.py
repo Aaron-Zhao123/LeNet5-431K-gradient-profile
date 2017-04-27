@@ -78,7 +78,8 @@ while (cRates['cov2'] <= 4.):
         ('-prune',False),
         ('-profile', False),
         ('-parent_dir', './'),
-        ('-recover_rate', rRates)
+        ('-recover_rate', rRates),
+        ('-learning_rate', learning_rate)
         ]
         acc = training_gp.main(param)
         if (acc >= 0.9936):
