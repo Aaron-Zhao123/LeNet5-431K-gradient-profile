@@ -332,7 +332,7 @@ def recover_weights(weights_mask, weights, grads, recover_rates):
         if (key == 'fc1'):
             print (weights_mask[key])
             print (mask_g[key])
-        weights_mask[key] = weights_mask[key] * mask_g[key]
+        weights_mask[key] = np.logical_and(weights_mask[key],mask_g[key])
         weights_mask[key].astype(int)
         if (key == 'fc1'):
             print (weights_mask[key])
