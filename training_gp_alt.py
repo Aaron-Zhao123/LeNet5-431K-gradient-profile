@@ -435,7 +435,7 @@ def main(argv = None):
         if (PROFILE):
             for key in keys:
                 new_weights[key] = weights[key]
-                pre_profile_weights[key] = weights[key].eval()
+                pre_profile_weights[key] = weights[key].eval(session = tf.Session())
         else:
             for key in keys:
                 new_weights[key] = weights[key] * weights_mask[key]
