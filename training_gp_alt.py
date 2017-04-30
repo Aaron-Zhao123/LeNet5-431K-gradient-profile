@@ -435,7 +435,6 @@ def main(argv = None):
         if (PROFILE):
             for key in keys:
                 new_weights[key] = weights[key]
-                pre_profile_weights[key] = weights[key].eval(session = tf.Session())
         else:
             for key in keys:
                 new_weights[key] = weights[key] * weights_mask[key]
@@ -461,7 +460,9 @@ def main(argv = None):
         # Launch the graph
         with tf.Session() as sess:
             sess.run(init)
-
+            if (PROFILE):
+                for key in keys:
+                    pre_profile_weights[key] = weights[key].eval()
             # print(weights['fc1'].eval())
             keys = ['cov1','cov2','fc1','fc2']
 
