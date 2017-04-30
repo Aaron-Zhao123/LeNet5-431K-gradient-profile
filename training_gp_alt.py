@@ -318,12 +318,12 @@ def recover_mask_gen(gradients, recover_rate):
     return mask
 
 
-def recover_weights(weights_mask, wegihts, grads, recover_rates):
+def recover_weights(weights_mask, weights, grads, recover_rates):
     keys = ['cov1','cov2','fc1','fc2']
     mask_info(weights_mask)
     for key in keys:
-        mean_w = np.mean(wegihts[key])
-        std_w = np.std(wegihts[key])
+        mean_w = np.mean(weights[key])
+        std_w = np.std(weights[key])
         mean_g = np.mean(grads[key])
         std_g = np.std(grads[key])
         # if (key == 'fc1'):
@@ -435,7 +435,7 @@ def main(argv = None):
         if (PROFILE):
             for key in keys:
                 new_weights[key] = weights[key]
-                pre_profile_weights[key] = weights[key]
+                pre_profile_weights[key] = weights[key].eval()
         else:
             for key in keys:
                 new_weights[key] = weights[key] * weights_mask[key]
