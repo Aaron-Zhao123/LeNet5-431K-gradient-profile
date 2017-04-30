@@ -335,6 +335,7 @@ def recover_weights(weights_mask, weights, grads, recover_rates):
         weights_mask[key] = np.logical_and(mask_w, mask_g)
         weights_mask[key].astype(int)
     mask_info(weights_mask)
+    sys.exit()
 
     return (weights_mask)
 '''
