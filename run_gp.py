@@ -11,15 +11,15 @@ def compute_file_name(p):
 
 acc_list = []
 run = 1
-rRates = {'cov1':0.,'cov2':0.,'fc1': 8.,'fc2':0.}
-cRates = {'cov1':0.,'cov2':0.,'fc1': 4.5,'fc2':0.}
+rRates = {'cov1':0.,'cov2':1.,'fc1': 8.,'fc2':0.}
+cRates = {'cov1':0.,'cov2':1.,'fc1': 4.5,'fc2':0.}
 f_name = compute_file_name(cRates)
 learning_rate = 1e-4
 print(f_name)
-while (cRates['cov2'] <= 4.):
+while (cRates['cov2'] <= 1.5):
     iter_cnt = 0
-    cRates['cov2'] = cRates['cov2'] + .5
-    rRates['cov2'] = rRates['cov2'] + .5
+    cRates['cov2'] = cRates['cov2'] + .1
+    rRates['cov2'] = rRates['cov2'] + .1
     # cRates['fc1'] = cRates['fc1'] + 0.5
     # rRates['fc1'] = rRates['fc1'] + 1.
     while (iter_cnt < 7):
