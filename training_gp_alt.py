@@ -329,6 +329,9 @@ def recover_weights(weights_mask, weights, grads, recover_rates):
         #     print('mask grads, mean {}, std {}'.format(mean_grad,std_grad))
         mask_g[key] = np.abs(grads[key]) > 1.1 * (mean_g + recover_rates[key] * std_g)
         mask_g[key].astype(int)
+        if (key == 'fc1'):
+            print (weights_mask[key])
+            print (mask_g[key])
         weights_mask[key] = weights_mask[key] * mask_g[key]
         weights_mask[key].astype(int)
     mask_info(mask_g)
