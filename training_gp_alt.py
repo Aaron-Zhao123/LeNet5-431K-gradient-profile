@@ -334,6 +334,8 @@ def recover_weights(weights_mask, weights, grads, recover_rates):
             print (mask_g[key])
         weights_mask[key] = weights_mask[key] * mask_g[key]
         weights_mask[key].astype(int)
+        if (key == 'fc1'):
+            print (weights_mask[key])
     mask_info(mask_g)
     mask_info(weights_mask)
     sys.exit()
