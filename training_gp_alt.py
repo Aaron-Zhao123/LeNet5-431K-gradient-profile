@@ -322,17 +322,14 @@ def recover_weights(weights_mask, weights, grads, recover_rates):
     keys = ['cov1','cov2','fc1','fc2']
     mask_info(weights_mask)
     for key in keys:
-        mean_w = np.mean(weights[key])
-        std_w = np.std(weights[key])
         mean_g = np.mean(grads[key])
         std_g = np.std(grads[key])
         # if (key == 'fc1'):
         #     print('mask grads, mean {}, std {}'.format(mean_grad,std_grad))
-        mask_w = np.abs(weights[key]) > (mean_w + recover_rates[key] * std_w)
-        mask_g = np.abs(grads[key]) > (mean_g + recover_rates[key] * std_g)
+        mask_g = np.abs(grads[key]) > 1.1 * (mean_g + recover_rates[key] * std_g)
         mask_w.astype(int)
         mask_g.astype(int)
-        weights_mask[key] = np.logical_and(mask_w, mask_g)
+        weights_mask[key] = np.logical_and(weights_mask[key], mask_g)
         weights_mask[key].astype(int)
     mask_info(weights_mask)
     sys.exit()
