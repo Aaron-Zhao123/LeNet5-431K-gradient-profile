@@ -432,12 +432,12 @@ def main(argv = None):
 
         keys = ['cov1','cov2','fc1','fc2']
         new_weights = {}
-        if (PROFILE):
-            for key in keys:
-                new_weights[key] = weights[key]
-        else:
-            for key in keys:
-                new_weights[key] = weights[key] * weights_mask[key]
+        # if (PROFILE or PRUNE_ONLY):
+        #     for key in keys:
+        #         new_weights[key] = weights[key]
+        # else:
+        for key in keys:
+            new_weights[key] = weights[key] * weights_mask[key]
 
         pred, pool = conv_network(x_image, new_weights, biases, keep_prob)
 
