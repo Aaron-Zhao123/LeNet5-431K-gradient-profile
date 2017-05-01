@@ -483,7 +483,7 @@ def main(argv = None):
             if (PROFILE == True):
                 print("profile for pruning...")
                 total_batch = int(mnist.train.num_examples/batch_size)
-                for i in range(200):
+                for i in range(total_batch):
                     batch_x, batch_y = mnist.train.next_batch(batch_size)
                     _, fetched_grads = sess.run([train_step, grad_values], feed_dict = {
                                 x: batch_x,
