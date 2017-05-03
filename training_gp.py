@@ -432,7 +432,7 @@ def main(argv = None):
 
         keys = ['cov1','cov2','fc1','fc2']
         new_weights = {}
-        if (PROFILE or PRUNE_ONLY):
+        if (PRUNE_ONLY):
             for key in keys:
                 new_weights[key] = weights[key]
         else:
@@ -506,10 +506,8 @@ def main(argv = None):
                 keys = ['cov1','cov2','fc1','fc2']
                 for key in keys:
                     grad_mask_val[key] = np.multiply (collect_grads[key],(1 - weights_mask[key]))
-                print('my mask')
                 non_zeros,size =calculate_non_zero_weights(1-weights_mask['cov2'])
-                print(non_zeros)
-                print(weights_mask['cov2'].shape)
+                # print(weights_mask['cov2'].shape)
 
                 print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
@@ -520,6 +518,8 @@ def main(argv = None):
                 non_zeros,size =calculate_non_zero_weights(grad_mask_val['cov2'])
                 print(non_zeros)
                 print(grad_mask_val['cov2'].shape)
+
+                print(grad_mask_val['cov2'])
 
                 weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
                 with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
