@@ -20,7 +20,7 @@ while (cRates['fc1'] <= 5.):
     iter_cnt = 0
     # cRates['cov2'] = cRates['cov2'] + .5
     # rRates['cov2'] = rRates['cov2'] + .1
-    cRates['fc1'] = cRates['fc1'] + 5.
+    cRates['fc1'] = cRates['fc1'] + 1.
     # rRates['fc1'] = rRates['fc1'] + 0.
     while (iter_cnt < 7):
         # Prune
