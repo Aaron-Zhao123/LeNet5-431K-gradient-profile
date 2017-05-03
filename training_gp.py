@@ -519,7 +519,7 @@ def main(argv = None):
                 print(non_zeros)
                 # print(grad_mask_val['fc1'].shape)
 
-                print(collect_grads['fc1'])
+                # print(collect_grads['fc1'])
                 print(grad_mask_val['fc1'])
                 sys.exit()
 
