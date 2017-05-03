@@ -520,6 +520,7 @@ def main(argv = None):
                 print(grad_mask_val['cov2'].shape)
 
                 print(grad_mask_val['cov2'])
+                sys.exit()
 
                 weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
                 with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
