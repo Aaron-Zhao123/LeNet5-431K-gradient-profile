@@ -432,7 +432,7 @@ def main(argv = None):
 
         keys = ['cov1','cov2','fc1','fc2']
         new_weights = {}
-        if (PRUNE_ONLY):
+        if (PRUNE_ONLY or PROFILE):
             for key in keys:
                 new_weights[key] = weights[key]
         else:
