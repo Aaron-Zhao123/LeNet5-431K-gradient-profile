@@ -520,8 +520,8 @@ def main(argv = None):
                 # print(grad_mask_val['fc1'].shape)
 
                 # print(collect_grads['fc1'])
-                print(grad_mask_val['fc1'])
-                sys.exit()
+                # print(grad_mask_val['fc1'])
+                # sys.exit()
 
                 weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
                 with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
