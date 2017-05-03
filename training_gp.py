@@ -512,14 +512,14 @@ def main(argv = None):
                 print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
                 print(non_zeros)
-                print(collect_grads['cov2'].shape)
+                # print(collect_grads['cov2'].shape)
 
                 print('my masked grads')
                 non_zeros,size =calculate_non_zero_weights(grad_mask_val['cov2'])
                 print(non_zeros)
-                print(grad_mask_val['cov2'].shape)
+                # print(grad_mask_val['fc1'].shape)
 
-                print(grad_mask_val['cov2'])
+                print(collect_grads['fc1'])
                 sys.exit()
 
                 weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
