@@ -522,7 +522,6 @@ def main(argv = None):
                 print(grad_mask_val['fc1'])
 
                 weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
-                sys.exit()
                 with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
                     pickle.dump(weights_mask, f)
                 # save_weights(weights, biases, parent_dir, file_name)
@@ -557,7 +556,6 @@ def main(argv = None):
                                 prune_info(new_weights, 0)
                                 print('org weights')
                                 prune_info(weights, 0)
-                                sys.exit()
                         # if (training_cnt == 10):
                         if (accuracy_mean > 0.99 or epoch > 300):
                             accuracy_list = np.zeros(30)
