@@ -327,16 +327,15 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
         # find top 10 percentile
         # mask = recover_mask_gen(grad_probs[key], 10)
         # print(grad_probs[key])
-        mean_grad = np.mean(grad_probs[key])
-        std_grad = np.std(grad_probs[key])
-        # if (key == 'fc1'):
-        #     print('mask grads, mean {}, std {}'.format(mean_grad,std_grad))
-        mask = np.abs(grad_probs[key]) > (mean_grad + recover_rates[key] *std_grad)
+        # mean_grad = np.mean(grad_probs[key])
+        # std_grad = np.std(grad_probs[key])
+        threshold = np.percentile(np.abs(grad_probs[key]),recover_rates[key])
+        if (key == 'fc1'):
+            print('mask grads, threshold {}'.format(threshold))
+        mask = np.abs(grad_probs[key]) > (threshold)
         mask.astype(int)
         weights_mask[key] = weights_mask[key] + mask
     mask_info(weights_mask)
-    # sys.exit()
-
     return (weights_mask)
 '''
 Define a training strategy
@@ -451,7 +450,7 @@ def main(argv = None):
         org_grads = trainer.compute_gradients(cost, gate_gradients = trainer.GATE_OP)
 
         org_grads = [(ClipIfNotNone(grad), var) for grad, var in org_grads]
-        (new_grads,grad_values) = mask_gradients(weights, org_grads, weights_mask)
+        (new_grads,grad_values) = mask_gradients(new_weights, org_grads, weights_mask)
 
         train_step = trainer.apply_gradients(new_grads)
 
@@ -517,13 +516,13 @@ def main(argv = None):
                 print('my masked grads')
                 non_zeros,size =calculate_non_zero_weights(grad_mask_val['cov2'])
                 print(non_zeros)
-                # print(grad_mask_val['fc1'].shape)
+                print(grad_mask_val['fc1'].shape)
 
-                # print(collect_grads['fc1'])
-                # print(grad_mask_val['fc1'])
-                # sys.exit()
+                print(collect_grads['fc1'])
+                print(grad_mask_val['fc1'])
 
                 weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
+                sys.exit()
                 with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
                     pickle.dump(weights_mask, f)
                 # save_weights(weights, biases, parent_dir, file_name)
@@ -558,7 +557,7 @@ def main(argv = None):
                                 prune_info(new_weights, 0)
                                 print('org weights')
                                 prune_info(weights, 0)
-                                # sys.exit()
+                                sys.exit()
                         # if (training_cnt == 10):
                         if (accuracy_mean > 0.99 or epoch > 300):
                             accuracy_list = np.zeros(30)
