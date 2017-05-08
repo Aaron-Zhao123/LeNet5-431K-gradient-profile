@@ -21,7 +21,7 @@ print(f_name)
 while (cRates['cov2'] <= 3.):
     iter_cnt = 0
     # cRates['cov2'] = cRates['cov2'] + .1
-    rRates['cov2'] = rRates['cov2'] + 0.5
+    cRates['cov2'] = cRates['cov2'] + 0.5
     # cRates['fc1'] = cRates['fc1'] + 0.2
     # rRates['fc1'] = rRates['fc1'] + 0.
     while (iter_cnt < 7):
