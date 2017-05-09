@@ -13,8 +13,8 @@ acc_list = []
 run = 1
 # rRates = {'cov1':0.,'cov2':4.,'fc1': 6.,'fc2':0.}
 # cRates = {'cov1':0.,'cov2':1.5,'fc1': 4.4,'fc2':0.}
-rRates = {'cov1':0.,'cov2': 95.,'fc1': 99.9,'fc2':0.}
-cRates = {'cov1':0.,'cov2':1.7,'fc1': 4.4,'fc2':0.}
+rRates = {'cov1':80.,'cov2': 95.,'fc1': 99.9,'fc2':80.}
+cRates = {'cov1':1.5,'cov2':1.7,'fc1': 4.4,'fc2':1.5}
 f_name = compute_file_name(cRates)
 learning_rate = 1e-4
 print(f_name)
