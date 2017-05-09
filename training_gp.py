@@ -481,6 +481,9 @@ def main(argv = None):
 
             if (PROFILE == True):
                 print("profile for pruning...")
+                prune_info(weights, 0)
+                sys.exit()
+
                 total_batch = int(mnist.train.num_examples/batch_size)
                 for i in range(total_batch):
                     batch_x, batch_y = mnist.train.next_batch(batch_size)
@@ -524,6 +527,7 @@ def main(argv = None):
                 weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
                 with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
                     pickle.dump(weights_mask, f)
+                sys.exit()
                 # save_weights(weights, biases, parent_dir, file_name)
 
 
