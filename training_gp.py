@@ -482,7 +482,7 @@ def main(argv = None):
             if (PROFILE == True):
                 print("profile for pruning...")
                 prune_info(weights, 0)
-                sys.exit()
+                print("starts profile")
 
                 total_batch = int(mnist.train.num_examples/batch_size)
                 for i in range(total_batch):
@@ -510,7 +510,9 @@ def main(argv = None):
                     grad_mask_val[key] = np.multiply (collect_grads[key],(1 - weights_mask[key]))
                 non_zeros,size =calculate_non_zero_weights(1-weights_mask['cov2'])
                 # print(weights_mask['cov2'].shape)
-
+                print("profile done")
+                prune_info(weights, 0)
+                sys.exit()
                 print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
                 print(non_zeros)
