@@ -447,6 +447,7 @@ def main(argv = None):
                 new_weights[key] = weights[key]
         elif (TRAIN):
             for key in keys:
+                print(type(weights_mask))
                 weights_mask[key].astype(np.float32)
                 new_weights[key] = weights[key] * weights_mask[key]
         else:
