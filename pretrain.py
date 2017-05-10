@@ -96,6 +96,7 @@ def initialize_variables():
             rmask = pickled.load(f)
 
         keys = ['cov1', 'cov2', 'fc1', 'fc2']
+        weights_ne = {}
         for key in keys:
           weights_new[key] = np.logical_or(hmask[key],rmask[key]) * weights[key]
 
