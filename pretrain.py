@@ -97,9 +97,9 @@ def initialize_variables():
 
         keys = ['cov1', 'cov2', 'fc1', 'fc2']
         for key in keys:
-          weights[key] = np.logical_or(hmask[key],rmask[key]) * weights[key]
+          weights_new[key] = np.logical_or(hmask[key],rmask[key]) * weights[key]
 
-    return (weights, biases)
+    return (weights_new, biases)
 def weight_variable(shape):
   initial = tf.truncated_normal(shape, stddev=0.1)
   return tf.Variable(initial)
