@@ -396,6 +396,8 @@ def main(argv = None):
                 hard_mask = pickle.load(f)
             with open(rmask_file, 'rb') as f:
                 r_mask = pickle.load(f)
+            print(r_mask)
+            sys.exit()
             weights_mask = {}
             for key in keys:
                 weights_mask[key] = np.logical_or(hard_mask, r_mask)
