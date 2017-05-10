@@ -335,8 +335,6 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
 
     for key in keys:
         threshold = np.percentile(np.abs(grad_probs[key]),recover_rates[key])
-        if (key == 'fc1'):
-            print('mask grads, threshold {}'.format(threshold))
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
         recover_mask[key].astype(int)
     mask_info(recover_mask)
@@ -448,7 +446,7 @@ def main(argv = None):
                 new_weights[key] = weights[key]
         elif (TRAIN):
             for key in keys:
-                new_weights[key] = weights[key] *  np.logical_or(weights_mask[key], r_mask[key])
+                new_weights[key] = weights[key] * weights_mask[key]
         else:
             for key in keys:
                 new_weights[key] = weights[key] * weights_mask[key]
