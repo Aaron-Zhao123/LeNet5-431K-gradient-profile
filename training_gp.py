@@ -541,6 +541,7 @@ def main(argv = None):
                 print(grad_mask_val['fc1'])
 
                 recover_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
+                print(recover_mask)
                 with open(parent_dir + 'masks/' + 'rmask' + file_name + '.pkl','wb') as f:
                     pickle.dump(recover_mask, f)
                 # save_weights(weights, biases, parent_dir, file_name)
