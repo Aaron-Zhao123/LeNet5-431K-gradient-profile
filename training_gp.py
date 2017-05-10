@@ -52,7 +52,7 @@ ENABLE_PRUNING = 0
 # Store layers weight & bias
 # def initialize_tf_variables(first_time_training):
 #     if (first_time_training):
-def initialize_variables(parent_dir, model_number, weights_mask, profile = False):
+def initialize_variables(parent_dir, model_number, weights_mask, rmask, profile = False, train = false):
     with open(parent_dir+ model_number +'.pkl','rb') as f:
         wc1, wc2, wd1, out, bc1, bc2, bd1, bout = pickle.load(f)
     if (profile == True):
@@ -60,6 +60,15 @@ def initialize_variables(parent_dir, model_number, weights_mask, profile = False
         wc2 = wc2 * weights_mask['cov2']
         wd1 = wd1 * weights_mask['fc1']
         out = out * weights_mask['fc2']
+        wc1 = wc1.astype(np.float32)
+        wc2 = wc2.astype(np.float32)
+        wd1 = wd1.astype(np.float32)
+        out = out.astype(np.float32)
+    elif (train == True):
+        wc1 = wc1 * (1 - rmask['cov1'])
+        wc2 = wc2 * (1 - rmask['cov2'])
+        wd1 = wd1 * (1 - rmask['fc1'])
+        out = out * (1 - rmask['fc2'])
         wc1 = wc1.astype(np.float32)
         wc2 = wc2.astype(np.float32)
         wd1 = wd1.astype(np.float32)
@@ -322,21 +331,16 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
     keys = ['cov1','cov2','fc1','fc2']
     mask_info(weights_mask)
     prev = weights_mask['fc1']
+    recover_mask = {}
 
     for key in keys:
-        # find top 10 percentile
-        # mask = recover_mask_gen(grad_probs[key], 10)
-        # print(grad_probs[key])
-        # mean_grad = np.mean(grad_probs[key])
-        # std_grad = np.std(grad_probs[key])
         threshold = np.percentile(np.abs(grad_probs[key]),recover_rates[key])
         if (key == 'fc1'):
             print('mask grads, threshold {}'.format(threshold))
-        mask = np.abs(grad_probs[key]) > (threshold)
-        mask.astype(int)
-        weights_mask[key] = weights_mask[key] + mask
-    mask_info(weights_mask)
-    return (weights_mask)
+        recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
+        recover_mask[key].astype(int)
+    mask_info(recover_mask)
+    return (recover_mask)
 '''
 Define a training strategy
 '''
@@ -384,11 +388,19 @@ def main(argv = None):
 
         # obtain all weight masks
         mask_file = parent_dir + 'masks/'+'mask'+ file_name+'.pkl'
-
+        rmask_file = parent_dir + 'masks/'+'rmask'+ file_name+'.pkl'
+        r_mask = {}
         if (TRAIN == True or PROFILE == True):
             with open(mask_file,'rb') as f:
                 weights_mask = pickle.load(f)
-
+        elif (TRAIN == True):
+            with open(mask_file,'rb') as f:
+                hard_mask = pickle.load(f)
+            with open(rmask_file, 'rb') as f:
+                r_mask = pickle.load(f)
+            weights_mask = {}
+            for key in keys:
+                weights_mask[key] = np.logical_or(hard_mask, r_mask)
         else:
             weights_mask = {
                 'cov1': np.ones([5, 5, NUM_CHANNELS, 20]),
@@ -413,19 +425,19 @@ def main(argv = None):
 
         x_image = tf.reshape(x,[-1,28,28,1])
         if (TRAIN == True):
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, PROFILE)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
         elif (PROFILE == True):
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, PROFILE)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
         elif (PRUNE_ONLY == True):
             print(first_read)
             if (first_read == True):
                 print(file_name)
-                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, PROFILE)
+                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
             else:
                 rfile_name = compute_file_name(cRates)
-                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name, weights_mask, PROFILE)
+                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name, weights_mask, r_mask, PROFILE, TRAIN)
         else:
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, PROFILE)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
 
         # Construct model
 
@@ -434,6 +446,9 @@ def main(argv = None):
         if (PRUNE_ONLY or PROFILE):
             for key in keys:
                 new_weights[key] = weights[key]
+        elif (TRAIN):
+            for key in keys:
+                new_weights[key] = weights[key] *  np.logical_or(weights_mask[key], r_mask[key])
         else:
             for key in keys:
                 new_weights[key] = weights[key] * weights_mask[key]
@@ -512,7 +527,6 @@ def main(argv = None):
                 # print(weights_mask['cov2'].shape)
                 print("profile done")
                 prune_info(weights, 0)
-                sys.exit()
                 print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
                 print(non_zeros)
@@ -526,10 +540,9 @@ def main(argv = None):
                 print(collect_grads['fc1'])
                 print(grad_mask_val['fc1'])
 
-                weights_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
-                with open(parent_dir + 'masks/' + 'mask' + file_name + '.pkl','wb') as f:
-                    pickle.dump(weights_mask, f)
-                sys.exit()
+                recover_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
+                with open(parent_dir + 'masks/' + 'rmask' + file_name + '.pkl','wb') as f:
+                    pickle.dump(recover_mask, f)
                 # save_weights(weights, biases, parent_dir, file_name)
 
 
