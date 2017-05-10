@@ -424,6 +424,7 @@ def main(argv = None):
         x_image = tf.reshape(x,[-1,28,28,1])
         if (TRAIN == True):
             print("check r mask")
+            print(file_name)
             print(r_mask)
             (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
         elif (PROFILE == True):
