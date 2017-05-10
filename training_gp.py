@@ -398,7 +398,7 @@ def main(argv = None):
                 r_mask = pickle.load(f)
             weights_mask = {}
             for key in keys:
-                weights_mask[key] = np.logical_or(hard_mask, r_mask).astype(float32)
+                weights_mask[key] = np.logical_or(hard_mask, r_mask, dtype=float32)
         else:
             weights_mask = {
                 'cov1': np.ones([5, 5, NUM_CHANNELS, 20]),
