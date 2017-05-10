@@ -388,7 +388,7 @@ def main(argv = None):
         mask_file = parent_dir + 'masks/'+'mask'+ file_name+'.pkl'
         rmask_file = parent_dir + 'masks/'+'rmask'+ file_name+'.pkl'
         r_mask = {}
-        if (TRAIN == True or PROFILE == True):
+        if (PROFILE == True):
             with open(mask_file,'rb') as f:
                 weights_mask = pickle.load(f)
         elif (TRAIN == True):
