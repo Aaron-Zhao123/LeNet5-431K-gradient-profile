@@ -424,8 +424,6 @@ def main(argv = None):
         x_image = tf.reshape(x,[-1,28,28,1])
         if (TRAIN == True):
             print("check r mask")
-            print(file_name)
-            print(r_mask)
             (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
         elif (PROFILE == True):
             (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
@@ -476,12 +474,7 @@ def main(argv = None):
         with tf.Session() as sess:
             sess.run(init)
 
-            # print(weights['fc1'].eval())
             keys = ['cov1','cov2','fc1','fc2']
-
-            # retain the masks on the weights
-            # for key in keys:
-            #     sess.run(weights[key].assign(weights[key].eval()*weights_mask[key]))
 
 
             prune_info(weights,1)
@@ -542,11 +535,9 @@ def main(argv = None):
                 print(grad_mask_val['fc1'])
 
                 recover_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
-                # print(recover_mask)
                 print(file_name)
                 with open(parent_dir + 'masks/' + 'rmask' + file_name + '.pkl','wb') as f:
                     pickle.dump(recover_mask, f)
-                # save_weights(weights, biases, parent_dir, file_name)
 
 
             if (TRAIN == True):
