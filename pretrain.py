@@ -93,7 +93,7 @@ def initialize_variables():
         with open(mask_file_name, 'rb') as f:
             hmask = pickle.load(f)
         with open(rmask_file_name, 'rb') as f:
-            rmask = pickled.load(f)
+            rmask = pickle.load(f)
 
         keys = ['cov1', 'cov2', 'fc1', 'fc2']
         weights_new = {}
