@@ -52,7 +52,7 @@ ENABLE_PRUNING = 0
 # Store layers weight & bias
 # def initialize_tf_variables(first_time_training):
 #     if (first_time_training):
-def initialize_variables(parent_dir, model_number, weights_mask, rmask, profile = False, train = false):
+def initialize_variables(parent_dir, model_number, weights_mask, rmask, profile = False, train = False):
     with open(parent_dir+ model_number +'.pkl','rb') as f:
         wc1, wc2, wd1, out, bc1, bc2, bd1, bout = pickle.load(f)
     if (profile == True):
