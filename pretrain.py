@@ -13,7 +13,7 @@ open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
 open_file_name = 'weights/weightcov10cov17fc44fc10.pkl'
 mask_file_name = 'masks/maskcov10cov17fc44fc10.pkl'
 rmask_file_name = 'masks/rmaskcov10cov17fc44fc10.pkl'
-MASK_ENABLE = False
+MASK_ENABLE = True
 # open_file_name = 'weights_log/pcov90pfc90'+'.pkl'
 # open_file_name = 'weights_log/weights2.pkl'
 Test = True;
@@ -99,7 +99,6 @@ def initialize_variables():
         weights_new = {}
         for key in keys:
           weights_new[key] = np.logical_or(hmask[key],rmask[key]) * weights[key]
-
     return (weights_new, biases)
 def weight_variable(shape):
   initial = tf.truncated_normal(shape, stddev=0.1)
