@@ -14,11 +14,11 @@ run = 1
 # rRates = {'cov1':0.,'cov2':4.,'fc1': 6.,'fc2':0.}
 # cRates = {'cov1':0.,'cov2':1.5,'fc1': 4.4,'fc2':0.}
 rRates = {'cov1':90.,'cov2': 95.,'fc1': 99.8,'fc2':90.}
-cRates = {'cov1':0.,'cov2':0.,'fc1': 2.,'fc2': 0.}
+cRates = {'cov1':0.,'cov2':0.,'fc1': 3.,'fc2': 0.}
 f_name = compute_file_name(cRates)
 learning_rate = 1e-4
 print(f_name)
-while (cRates['fc1'] <= 3.):
+while (cRates['fc1'] <= 4.):
     iter_cnt = 0
     # cRates['cov2'] = cRates['cov2'] + .1
     cRates['fc1'] = cRates['fc1'] + 0.5
