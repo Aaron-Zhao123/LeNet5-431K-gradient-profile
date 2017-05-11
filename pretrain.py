@@ -8,11 +8,28 @@ np.set_printoptions(precision=128)
 # open_file_name = 'weights1'+'.pkl'
 # open_file_name = 'weights_log/pcov95pfc95'+'.pkl'
 # open_file_name = 'weights_log_asyn/pcov93pcov93pfc100pfc93'+'.pkl'
+cRates = {'cov1':0.,'cov2':0.,'fc1': 3.,'fc2': 0.}
 open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
 open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
 open_file_name = 'weights/weightcov10cov17fc44fc10.pkl'
 mask_file_name = 'masks/maskcov10cov17fc44fc10.pkl'
 rmask_file_name = 'masks/rmaskcov10cov17fc44fc10.pkl'
+
+
+def compute_file_name(p):
+    name = ''
+    name += 'cov' + str(int(p['cov1'] * 10))
+    name += 'cov' + str(int(p['cov2'] * 10))
+    name += 'fc' + str(int(p['fc1'] * 10))
+    name += 'fc' + str(int(p['fc2'] * 10))
+    return name
+
+file_name_part = compute_file_name(cRates)
+open_file_name = 'weights/weight' + file_name_part
+mask_file_name = 'masks/mask' + file_name_part
+rmask_file_name = 'masks/rmask' + file_name_part
+
+
 MASK_ENABLE = True
 # open_file_name = 'weights_log/pcov90pfc90'+'.pkl'
 # open_file_name = 'weights_log/weights2.pkl'
