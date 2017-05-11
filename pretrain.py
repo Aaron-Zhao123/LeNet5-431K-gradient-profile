@@ -25,9 +25,9 @@ def compute_file_name(p):
     return name
 
 file_name_part = compute_file_name(cRates)
-open_file_name = 'weights/weight' + file_name_part
-mask_file_name = 'masks/mask' + file_name_part
-rmask_file_name = 'masks/rmask' + file_name_part
+open_file_name = 'weights/weight' + file_name_part +'.pkl'
+mask_file_name = 'masks/mask' + file_name_part + '.pkl'
+rmask_file_name = 'masks/rmask' + file_name_part + '.pkl'
 
 
 MASK_ENABLE = True
