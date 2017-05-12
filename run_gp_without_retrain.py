@@ -18,7 +18,7 @@ cRates = {'cov1':0.,'cov2':0.,'fc1': 0.,'fc2': 0.}
 f_name = compute_file_name(cRates)
 learning_rate = 1e-4
 print(f_name)
-parent_dir = 'assets_no_pruning/'
+parent_dir = 'assets_no_prune/'
 while (cRates['fc1'] <= 5.):
     iter_cnt = 0
     cRates['cov1'] = cRates['cov1'] + .5
