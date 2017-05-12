@@ -20,11 +20,6 @@ learning_rate = 1e-4
 print(f_name)
 parent_dir = 'assets_no_prune/'
 while (cRates['fc1'] <= 5.):
-    iter_cnt = 0
-    cRates['cov1'] = cRates['cov1'] + .5
-    cRates['cov2'] = cRates['cov2'] + .5
-    cRates['fc1'] = cRates['fc1'] + .5
-    cRates['fc2'] = cRates['fc2'] + .5
 
     # Prune
     param = [
@@ -68,5 +63,9 @@ while (cRates['fc1'] <= 5.):
     ('-learning_rate', learning_rate)
     ]
     acc = training_gp.main(param)
+    cRates['cov1'] = cRates['cov1'] + .5
+    cRates['cov2'] = cRates['cov2'] + .5
+    cRates['fc1'] = cRates['fc1'] + .5
+    cRates['fc2'] = cRates['fc2'] + .5
 
     acc_list.append(acc)
