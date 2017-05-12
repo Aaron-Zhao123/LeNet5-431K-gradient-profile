@@ -30,7 +30,6 @@ while (cRates['fc1'] <= 5.):
     ('-profile',False),
     ('-parent_dir', parent_dir),
     ('-recover_rate', rRates),
-    ('-first_read', iter_cnt == 0),
     ('-learning_rate', learning_rate)
     ]
     _ = training_gp.main(param)
