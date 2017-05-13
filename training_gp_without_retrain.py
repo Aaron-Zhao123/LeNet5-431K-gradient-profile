@@ -465,7 +465,7 @@ def main(argv = None):
             keys = ['cov1','cov2','fc1','fc2']
 
 
-            _ = prune_info(weights,1)
+            _ = prune_info(weights, biases, 1)
             # Training cycle
             training_cnt = 0
             pruning_cnt = 0
@@ -478,7 +478,7 @@ def main(argv = None):
 
             if (PROFILE == True):
                 print("profile for pruning...")
-                _ = prune_info(weights, 0)
+                _ = prune_info(weights, biases, 0)
                 print("starts profile")
 
                 total_batch = int(mnist.train.num_examples/batch_size)
@@ -508,7 +508,7 @@ def main(argv = None):
                 non_zeros,size =calculate_non_zero_weights(1-weights_mask['cov2'])
                 # print(weights_mask['cov2'].shape)
                 print("profile done")
-                _ = prune_info(weights, 0)
+                _ = prune_info(weights, biases, 0)
                 print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
                 print(non_zeros)
@@ -554,9 +554,9 @@ def main(argv = None):
                                 print('accuracy mean is {}'.format(accuracy_mean))
                                 print('Epoch is {}'.format(epoch))
                                 weights_info(training_cnt, c, train_accuracy, accuracy_mean)
-                                _ = prune_info(new_weights, 0)
+                                _ = prune_info(new_weights, biases, 0)
                                 print('org weights')
-                                _ = prune_info(weights, 0)
+                                _ = prune_info(weights, biases 0)
                         # if (training_cnt == 10):
                         if (accuracy_mean > 0.99 or epoch > 300):
                             accuracy_list = np.zeros(30)
@@ -587,7 +587,7 @@ def main(argv = None):
                 # Calculate accuracy
             accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
             test_accuracy = accuracy.eval({x: mnist.test.images, y: mnist.test.labels, keep_prob : 1.0})
-            prune_percent = prune_info(new_weights, 0)
+            prune_percent = prune_info(new_weights, biases, 0)
             print("Accuracy:", test_accuracy)
             with open('acc_log_10.txt','a') as f:
                 f.write(str(test_accuracy)+'\n')
@@ -616,25 +616,29 @@ def weights_info(iter,  c, train_accuracy, acc_mean):
         acc_mean
     ))
 
-def prune_info(weights, counting):
+def prune_info(weights, biases, counting):
     t_non_zeros = 0
     t_total = 0
     if (counting == 0):
         (non_zeros, total) = calculate_non_zero_weights(weights['cov1'].eval())
-        t_total += total
-        t_non_zeros += non_zeros
+        (non_zeros_b, total_b) = calculate_non_zero_weights(biases['cov1'].eval())
+        t_total += total + total_b
+        t_non_zeros += non_zeros + non_zeros_b
         print('cov1 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
         (non_zeros, total) = calculate_non_zero_weights(weights['cov2'].eval())
-        t_total += total
-        t_non_zeros += non_zeros
-        print('cov2 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
+        (non_zeros_b, total_b) = calculate_non_zero_weights(biases['cov2'].eval())
+        t_total += total + total_b
+        t_non_zeros += non_zeros + non_zeros_b
+        print('cov2 has prunned {} percent of its weights'.format((total-non_zeros)*100/float(total)))
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
-        t_total += total
-        t_non_zeros += non_zeros
+        (non_zeros_b, total_b) = calculate_non_zero_weights(biases['fc1'].eval())
+        t_total += total + total_b
+        t_non_zeros += non_zeros + non_zeros_b
         print('fc1 has prunned {} percent of its weights'.format((total-non_zeros)*100/float(total)))
         (non_zeros, total) = calculate_non_zero_weights(weights['fc2'].eval())
-        t_total += total
-        t_non_zeros += non_zeros
+        (non_zeros_b, total_b) = calculate_non_zero_weights(biases['fc1'].eval())
+        t_total += total + total_b
+        t_non_zeros += non_zeros + non_zeros_b
         print('fc2 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
     if (counting == 1):
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
