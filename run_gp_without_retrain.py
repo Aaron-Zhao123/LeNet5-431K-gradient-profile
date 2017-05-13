@@ -68,5 +68,5 @@ while (cRates['fc1'] <= 5.):
 
     (acc,prune_percent) = training_gp_without_retrain.main(param)
 
-    acc_list.append(acc)
+    acc_list.append((acc,prune_percent))
 print(acc_list)
