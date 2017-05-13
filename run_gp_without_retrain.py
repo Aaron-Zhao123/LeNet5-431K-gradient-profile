@@ -1,5 +1,5 @@
 import os
-import training_gp
+import training_gp_without_retrain
 
 def compute_file_name(p):
     name = ''
@@ -34,9 +34,9 @@ while (cRates['fc1'] <= 5.):
     ('-parent_dir', parent_dir),
     ('-recover_rate', rRates),
     ('-learning_rate', learning_rate),
-    ('-first_read', False)
+    ('-first_read', True)
     ]
-    _ = training_gp.main(param)
+    _ = training_gp_without_retrain.main(param)
 
     # compute the name
     f_name = compute_file_name(cRates)
@@ -52,7 +52,7 @@ while (cRates['fc1'] <= 5.):
     ('-recover_rate', rRates),
     ('-learning_rate', learning_rate)
     ]
-    _ = training_gp.main(param)
+    _ = training_gp_without_retrain.main(param)
 
     # TEST
     param = [
@@ -66,6 +66,6 @@ while (cRates['fc1'] <= 5.):
     ('-learning_rate', learning_rate)
     ]
 
-    acc = training_gp.main(param)
+    acc = training_gp_without_retrain.main(param)
 
     acc_list.append(acc)
