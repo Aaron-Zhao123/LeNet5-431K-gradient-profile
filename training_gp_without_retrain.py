@@ -639,7 +639,7 @@ def prune_info(weights, counting):
     if (counting == 1):
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
         print('take fc1 as example, {} nonzeros, in total {} weights'.format(non_zeros, total))
-    return (t_non_zeros / (float) t_total)
+    return (t_non_zeros / (float t_total))
 
 def mask_info(weights):
     (non_zeros, total) = calculate_non_zero_weights(weights['cov1'])
