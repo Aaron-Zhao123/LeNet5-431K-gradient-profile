@@ -400,7 +400,7 @@ def main(argv = None):
             keys = ['cov1', 'cov2', 'fc1', 'fc2']
             for key in keys:
                 weights_mask[key] = np.logical_or(hard_mask[key], r_mask[key])
-        else:
+        elif (PRUNE_ONLY):
             weights_mask = {
                 'cov1': np.ones([5, 5, NUM_CHANNELS, 20]),
                 'cov2': np.ones([5, 5, 20, 50]),
@@ -413,6 +413,15 @@ def main(argv = None):
                 'fc1': np.ones([500]),
                 'fc2': np.ones([10])
             }
+        else:
+            with open(mask_file,'rb') as f:
+                hard_mask = pickle.load(f)
+            with open(rmask_file, 'rb') as f:
+                r_mask = pickle.load(f)
+            weights_mask = {}
+            keys = ['cov1', 'cov2', 'fc1', 'fc2']
+            for key in keys:
+                weights_mask[key] = np.logical_or(hard_mask[key], r_mask[key])            
 
         mnist = input_data.read_data_sets("MNIST.data/", one_hot = True)
         # tf Graph input
