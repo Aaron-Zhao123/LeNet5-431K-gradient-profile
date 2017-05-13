@@ -556,7 +556,7 @@ def main(argv = None):
                                 weights_info(training_cnt, c, train_accuracy, accuracy_mean)
                                 _ = prune_info(new_weights, biases, 0)
                                 print('org weights')
-                                _ = prune_info(weights, biases 0)
+                                _ = prune_info(weights, biases, 0)
                         # if (training_cnt == 10):
                         if (accuracy_mean > 0.99 or epoch > 300):
                             accuracy_list = np.zeros(30)
