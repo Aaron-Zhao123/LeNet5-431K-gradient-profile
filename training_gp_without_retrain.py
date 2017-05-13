@@ -23,7 +23,7 @@ class Usage(Exception):
 
 # Parameters
 learning_rate = 1e-4
-training_epochs = 300
+training_epochs = 15
 # training_epochs = 2
 batch_size = 128
 display_step = 1
@@ -558,7 +558,7 @@ def main(argv = None):
                                 print('org weights')
                                 _ = prune_info(weights, biases, 0)
                         # if (training_cnt == 10):
-                        if (accuracy_mean > 0.99 or epoch > 300):
+                        if (accuracy_mean > 0.99 or epoch > 10):
                             accuracy_list = np.zeros(30)
                             accuracy_mean = 0
                             print('Training ends')
@@ -567,7 +567,7 @@ def main(argv = None):
                                     y: mnist.test.labels[:],
                                     keep_prob: 1.})
                             print('test accuracy is {}'.format(test_accuracy))
-                            if (test_accuracy > 0.9936 or epoch > 300):
+                            if (test_accuracy > 0.9936 or epoch > 10):
                                 save_weights(weights, biases, parent_dir, file_name)
                                 return test_accuracy
                             else:
