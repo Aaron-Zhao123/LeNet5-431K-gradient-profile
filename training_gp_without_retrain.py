@@ -437,7 +437,8 @@ def main(argv = None):
                 rfile_name = compute_file_name(cRates)
                 (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name, weights_mask, r_mask, PROFILE, TRAIN)
         else:
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
+            # (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
 
         # Construct model
 
