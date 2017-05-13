@@ -69,3 +69,4 @@ while (cRates['fc1'] <= 5.):
     acc = training_gp_without_retrain.main(param)
 
     acc_list.append(acc)
+print(acc_list)
