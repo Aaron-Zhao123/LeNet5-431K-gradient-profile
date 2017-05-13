@@ -66,7 +66,7 @@ while (cRates['fc1'] <= 5.):
     ('-learning_rate', learning_rate)
     ]
 
-    acc = training_gp_without_retrain.main(param)
+    (acc,prune_percent) = training_gp_without_retrain.main(param)
 
     acc_list.append(acc)
 print(acc_list)

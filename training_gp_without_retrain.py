@@ -265,32 +265,6 @@ def mask_gradients(weights, grads_and_names, weight_masks):
         # print(grad.get_shape())
     return (new_grads,grad_values)
 
-'''
-plot weights and store the fig
-'''
-def plot_weights(weights,pruning_info):
-        keys = ['cov1','cov2','fc1','fc2']
-        fig, axrr = plt.subplots( 2, 2)  # create figure &  axis
-        fig_pos = [(0,0), (0,1), (1,0), (1,1)]
-        index = 0
-        for key in keys:
-            weight = weights[key].eval().flatten()
-            # print (weight)
-            size_weight = len(weight)
-            weight = weight.reshape(-1,size_weight)[:,0:size_weight]
-            x_pos, y_pos = fig_pos[index]
-            #take out zeros
-            weight = weight[weight != 0]
-            # print (weight)
-            hist,bins = np.histogram(weight, bins=100)
-            width = 0.7 * (bins[1] - bins[0])
-            center = (bins[:-1] + bins[1:]) / 2
-            axrr[x_pos, y_pos].bar(center, hist, align = 'center', width = width)
-            axrr[x_pos, y_pos].set_title(key)
-            index = index + 1
-        fig.savefig('fig_v3/weights'+pruning_info)
-        plt.close(fig)
-
 def ClipIfNotNone(grad):
     if grad is None:
         return grad
@@ -421,7 +395,7 @@ def main(argv = None):
             weights_mask = {}
             keys = ['cov1', 'cov2', 'fc1', 'fc2']
             for key in keys:
-                weights_mask[key] = np.logical_or(hard_mask[key], r_mask[key])            
+                weights_mask[key] = np.logical_or(hard_mask[key], r_mask[key])
 
         mnist = input_data.read_data_sets("MNIST.data/", one_hot = True)
         # tf Graph input
@@ -491,7 +465,7 @@ def main(argv = None):
             keys = ['cov1','cov2','fc1','fc2']
 
 
-            prune_info(weights,1)
+            _ = prune_info(weights,1)
             # Training cycle
             training_cnt = 0
             pruning_cnt = 0
@@ -504,7 +478,7 @@ def main(argv = None):
 
             if (PROFILE == True):
                 print("profile for pruning...")
-                prune_info(weights, 0)
+                _ = prune_info(weights, 0)
                 print("starts profile")
 
                 total_batch = int(mnist.train.num_examples/batch_size)
@@ -534,7 +508,7 @@ def main(argv = None):
                 non_zeros,size =calculate_non_zero_weights(1-weights_mask['cov2'])
                 # print(weights_mask['cov2'].shape)
                 print("profile done")
-                prune_info(weights, 0)
+                _ = prune_info(weights, 0)
                 print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
                 print(non_zeros)
@@ -580,9 +554,9 @@ def main(argv = None):
                                 print('accuracy mean is {}'.format(accuracy_mean))
                                 print('Epoch is {}'.format(epoch))
                                 weights_info(training_cnt, c, train_accuracy, accuracy_mean)
-                                prune_info(new_weights, 0)
+                                _ = prune_info(new_weights, 0)
                                 print('org weights')
-                                prune_info(weights, 0)
+                                _ = prune_info(weights, 0)
                         # if (training_cnt == 10):
                         if (accuracy_mean > 0.99 or epoch > 300):
                             accuracy_list = np.zeros(30)
@@ -613,10 +587,11 @@ def main(argv = None):
                 # Calculate accuracy
             accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
             test_accuracy = accuracy.eval({x: mnist.test.images, y: mnist.test.labels, keep_prob : 1.0})
+            prune_percent = prune_info(new_weights, 0)
             print("Accuracy:", test_accuracy)
             with open('acc_log_10.txt','a') as f:
                 f.write(str(test_accuracy)+'\n')
-            return test_accuracy
+            return (test_accuracy, prune_percent)
     except Usage, err:
         print >> sys.stderr, err.msg
         print >> sys.stderr, "for help use --help"
@@ -642,18 +617,29 @@ def weights_info(iter,  c, train_accuracy, acc_mean):
     ))
 
 def prune_info(weights, counting):
+    t_non_zeros = 0
+    t_total = 0
     if (counting == 0):
         (non_zeros, total) = calculate_non_zero_weights(weights['cov1'].eval())
+        t_total += total
+        t_non_zeros += non_zeros
         print('cov1 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
         (non_zeros, total) = calculate_non_zero_weights(weights['cov2'].eval())
+        t_total += total
+        t_non_zeros += non_zeros
         print('cov2 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
+        t_total += total
+        t_non_zeros += non_zeros
         print('fc1 has prunned {} percent of its weights'.format((total-non_zeros)*100/float(total)))
         (non_zeros, total) = calculate_non_zero_weights(weights['fc2'].eval())
+        t_total += total
+        t_non_zeros += non_zeros
         print('fc2 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
     if (counting == 1):
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
         print('take fc1 as example, {} nonzeros, in total {} weights'.format(non_zeros, total))
+    return (t_non_zeros / (float) t_total)
 
 def mask_info(weights):
     (non_zeros, total) = calculate_non_zero_weights(weights['cov1'])
