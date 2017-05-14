@@ -654,7 +654,7 @@ def prune_info(weights, biases, counting):
     if (counting == 1):
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
         print('take fc1 as example, {} nonzeros, in total {} weights'.format(non_zeros, total))
-    if (counting = 2):
+    if (counting == 2):
         return perc_list
     if (t_total == 0):
         perc = 0
