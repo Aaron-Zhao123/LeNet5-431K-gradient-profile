@@ -435,7 +435,7 @@ def main(argv = None):
             weights_mask = {}
             keys = ['cov1', 'cov2', 'fc1', 'fc2']
             for key in keys:
-                weights_mask[key] = hard_mask[key]
+                # weights_mask[key] = hard_mask[key]
                 weights_mask[key] = np.logical_or(hard_mask[key], r_mask[key])
 
         mnist = input_data.read_data_sets("MNIST.data/", one_hot = True)
