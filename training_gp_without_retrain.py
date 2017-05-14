@@ -626,26 +626,27 @@ def prune_info(weights, biases, counting):
         (non_zeros, total) = calculate_non_zero_weights(weights['cov1'].eval())
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['cov1'].eval())
         t_total += total + total_b
-        # t_non_zeros += non_zeros + non_zeros_b
-        # perc_list.append(non_zeros / (float total))
+        t_non_zeros += non_zeros + non_zeros_b
+        tmp = non_zeros / (float total)
+        perc_list.append(non_zeros / tmp)
         print('cov1 has prunned {} percent of its weights'.format((total-non_zeros)*100/ total))
         (non_zeros, total) = calculate_non_zero_weights(weights['cov2'].eval())
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['cov2'].eval())
         t_total += total + total_b
         t_non_zeros += non_zeros + non_zeros_b
-        perc_list.append(non_zeros / (float total))
+        perc_list.append(non_zeros / (total))
         print('cov2 has prunned {} percent of its weights'.format((total-non_zeros)*100/(total)))
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['fc1'].eval())
         t_total += total + total_b
         t_non_zeros += non_zeros + non_zeros_b
-        perc_list.append(non_zeros / (float total))
+        perc_list.append(non_zeros / (total))
         print('fc1 has prunned {} percent of its weights'.format((total-non_zeros)*100/(total)))
         (non_zeros, total) = calculate_non_zero_weights(weights['fc2'].eval())
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['fc1'].eval())
         t_total += total + total_b
         t_non_zeros += non_zeros + non_zeros_b
-        perc_list.append(non_zeros / (float total))
+        perc_list.append(non_zeros / (total))
         print('fc2 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
     if (counting == 1):
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
