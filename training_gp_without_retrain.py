@@ -341,6 +341,7 @@ def recover_weights(weights_mask, grad_probs, recover_rates, f_name):
             threshold = np.percentile(np.abs(grad_probs[key]),perc_bar)
         index += 1
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
+        recover_mask[key] = recover_mask[key] * np.sign(grad_probs[key])
         test_mask[key] = np.logical_or(recover_mask[key], weights_mask[key])
         recover_mask[key].astype(int)
     mask_info(test_mask)
@@ -434,7 +435,8 @@ def main(argv = None):
             weights_mask = {}
             keys = ['cov1', 'cov2', 'fc1', 'fc2']
             for key in keys:
-                weights_mask[key] = np.logical_or(hard_mask[key], r_mask[key])
+                weights_mask[key] = hard_mask[key]
+                # weights_mask[key] = np.logical_or(hard_mask[key], r_mask[key])
 
         mnist = input_data.read_data_sets("MNIST.data/", one_hot = True)
         # tf Graph input
@@ -478,7 +480,7 @@ def main(argv = None):
                 new_weights[key] = weights[key] * weights_mask[key]
         else:
             for key in keys:
-                new_weights[key] = weights[key] * weights_mask[key]
+                new_weights[key] = weights[key] * weights_mask[key] + r_mask[key] * np.std(weights[key]) * 0.5
 
         pred, pool = conv_network(x_image, new_weights, biases, keep_prob)
 
