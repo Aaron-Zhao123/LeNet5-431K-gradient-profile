@@ -79,8 +79,8 @@ while (cRates['fc1'] <= 5.):
 
     acc_list.append((acc,prune_percent))
 
-    cRates['cov1'] = cRates['cov1'] + .5
-    cRates['cov2'] = cRates['cov2'] + .5
-    cRates['fc1'] = cRates['fc1'] + .5
-    cRates['fc2'] = cRates['fc2'] + .5
+    cRates['cov1'] = cRates['cov1'] + .2
+    cRates['cov2'] = cRates['cov2'] + .2
+    cRates['fc1'] = cRates['fc1'] + .2
+    cRates['fc2'] = cRates['fc2'] + .2
 print(acc_list)
