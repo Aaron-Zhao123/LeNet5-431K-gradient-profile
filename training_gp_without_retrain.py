@@ -314,7 +314,8 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
             threshold = 0
         else:
             grad_non_zeros = np.abs(grad_probs[key][grad_probs[key]!=0])
-            threshold = np.percentile(grad_non_zeros),100 - recover_rates[index] * 100)
+            perc_bar = 100 - recover_rates[index] * 100
+            threshold = np.percentile(grad_non_zeros),perc_bar)
         index += 1
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
         recover_mask[key].astype(int)
