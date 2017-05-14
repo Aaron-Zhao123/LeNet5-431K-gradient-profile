@@ -326,10 +326,10 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
     mask_info(test_mask)
     mask_info(recover_mask)
 
-    print(np.logical_and(recover_mask['fc1'], weights_mask['fc1']).sum())
+    # print(np.logical_and(recover_mask['fc1'], weights_mask['fc1']).sum())
 
-    if (threshold != 0):
-        sys.exit()
+    # if (threshold != 0):
+    #     sys.exit()
 
     return (recover_mask)
 '''
