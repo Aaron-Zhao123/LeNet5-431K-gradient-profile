@@ -527,13 +527,13 @@ def main(argv = None):
                 print("profile done")
                 perc_list = prune_info(pre_profile_weights, biases, 2)
 
-                perc_list = [(1 - item) * 0.05 for item in perc_list]
-                print('my grads')
+                perc_list = [(1 - item) * 0.1 for item in perc_list]
+                # print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
-                print(non_zeros)
+                # print(non_zeros)
                 # print(collect_grads['cov2'].shape)
 
-                print('my masked grads')
+                # print('my masked grads')
                 non_zeros,size =calculate_non_zero_weights(grad_mask_val['cov2'])
                 # print(non_zeros)
                 # print(grad_mask_val['fc1'].shape)
