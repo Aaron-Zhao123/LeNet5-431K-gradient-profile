@@ -627,7 +627,7 @@ def prune_info(weights, biases, counting):
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['cov1'].eval())
         t_total += total + total_b
         t_non_zeros += non_zeros + non_zeros_b
-        perc_list.append(non_zeros / (float total))
+        # perc_list.append(non_zeros / (float total))
         print('cov1 has prunned {} percent of its weights'.format((total-non_zeros)*100/ float total))
         (non_zeros, total) = calculate_non_zero_weights(weights['cov2'].eval())
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['cov2'].eval())
