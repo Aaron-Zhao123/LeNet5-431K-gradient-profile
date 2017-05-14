@@ -52,17 +52,17 @@ while (cRates['fc1'] <= 5.):
     _ = training_gp_without_retrain.main(param)
 
     # # Profile and redefine mask
-    # param = [
-    # ('-thresholds',cRates),
-    # ('-file_name',f_name),
-    # ('-train', True),
-    # ('-prune',False),
-    # ('-profile', False),
-    # ('-parent_dir', parent_dir),
-    # ('-recover_rate', rRates),
-    # ('-learning_rate', learning_rate)
-    # ]
-    # _ = training_gp_without_retrain.main(param)
+    param = [
+    ('-thresholds',cRates),
+    ('-file_name',f_name),
+    ('-train', True),
+    ('-prune',False),
+    ('-profile', False),
+    ('-parent_dir', parent_dir),
+    ('-recover_rate', rRates),
+    ('-learning_rate', learning_rate)
+    ]
+    _ = training_gp_without_retrain.main(param)
     # TEST
     param = [
     ('-thresholds',cRates),

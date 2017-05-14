@@ -644,7 +644,7 @@ def main(argv = None):
         return 2
 
 def save_weights(weights, biases, parent_dir, file_name):
-    with open(parent_dir + 'weights/' + 'weight'+ file_name + '.pkl', 'wb') as f:
+    with open(parent_dir + 'weights/' + 'weightpt'+ file_name + '.pkl', 'wb') as f:
         pickle.dump((
             weights['cov1'].eval(),
             weights['cov2'].eval(),
