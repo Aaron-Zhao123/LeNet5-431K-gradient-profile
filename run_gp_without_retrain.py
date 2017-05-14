@@ -14,7 +14,7 @@ run = 1
 # rRates = {'cov1':0.,'cov2':4.,'fc1': 6.,'fc2':0.}
 # cRates = {'cov1':0.,'cov2':1.5,'fc1': 4.4,'fc2':0.}
 rRates = {'cov1':99.,'cov2': 99.,'fc1': 99,'fc2':99.}
-cRates = {'cov1':5.,'cov2':5.,'fc1': 5.,'fc2': 5.}
+cRates = {'cov1':0.,'cov2':0.,'fc1': 0.,'fc2': 0.}
 f_name = compute_file_name(cRates)
 learning_rate = 1e-4
 print(f_name)
