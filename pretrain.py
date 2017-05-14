@@ -9,6 +9,7 @@ np.set_printoptions(precision=128)
 # open_file_name = 'weights_log/pcov95pfc95'+'.pkl'
 # open_file_name = 'weights_log_asyn/pcov93pcov93pfc100pfc93'+'.pkl'
 cRates = {'cov1':5.,'cov2':5.,'fc1': 5.,'fc2': 5.}
+cRates = {'cov1':4.8,'cov2':4.8,'fc1': 4.8,'fc2': 4.8}
 open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
 open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
 open_file_name = 'weights/weightcov10cov17fc44fc10.pkl'
