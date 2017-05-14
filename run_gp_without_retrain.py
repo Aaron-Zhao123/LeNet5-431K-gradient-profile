@@ -14,7 +14,7 @@ run = 1
 # rRates = {'cov1':0.,'cov2':4.,'fc1': 6.,'fc2':0.}
 # cRates = {'cov1':0.,'cov2':1.5,'fc1': 4.4,'fc2':0.}
 rRates = {'cov1':99.,'cov2': 99.,'fc1': 99,'fc2':99.}
-cRates = {'cov1':0.,'cov2':0.,'fc1': 0.,'fc2': 0.}
+cRates = {'cov1':5.,'cov2':5.,'fc1': 5.,'fc2': 5.}
 f_name = compute_file_name(cRates)
 learning_rate = 1e-4
 print(f_name)
@@ -33,7 +33,7 @@ while (cRates['fc1'] <= 5.):
     ('-learning_rate', learning_rate),
     ('-first_read', True)
     ]
-    _ = training_gp_without_retrain.main(param)
+    # _ = training_gp_without_retrain.main(param)
 
     # compute the name
     f_name = compute_file_name(cRates)
@@ -49,7 +49,7 @@ while (cRates['fc1'] <= 5.):
     ('-recover_rate', rRates),
     ('-learning_rate', learning_rate)
     ]
-    _ = training_gp_without_retrain.main(param)
+    # _ = training_gp_without_retrain.main(param)
 
     # # Profile and redefine mask
     param = [
@@ -62,7 +62,7 @@ while (cRates['fc1'] <= 5.):
     ('-recover_rate', rRates),
     ('-learning_rate', learning_rate)
     ]
-    _ = training_gp_without_retrain.main(param)
+    # _ = training_gp_without_retrain.main(param)
     # TEST
     param = [
     ('-thresholds',cRates),
