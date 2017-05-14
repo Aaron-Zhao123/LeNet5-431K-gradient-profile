@@ -312,7 +312,7 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
         recover_mask[key].astype(int)
     mask_info(recover_mask)
-    
+
     return (recover_mask)
 '''
 Define a training strategy
@@ -627,7 +627,7 @@ def prune_info(weights, biases, counting):
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['cov1'].eval())
         t_total += total + total_b
         t_non_zeros += non_zeros + non_zeros_b
-        perc_list.append((t_non_zeros / (float) t_total))
+        perc_list.append(t_non_zeros / (float) t_total)
         print('cov1 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
         (non_zeros, total) = calculate_non_zero_weights(weights['cov2'].eval())
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['cov2'].eval())
