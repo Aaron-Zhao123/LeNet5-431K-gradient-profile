@@ -73,6 +73,15 @@ def initialize_variables(parent_dir, model_number, weights_mask, rmask, profile 
         wc2 = wc2.astype(np.float32)
         wd1 = wd1.astype(np.float32)
         out = out.astype(np.float32)
+    np_weights = {
+        'cov1': wc1,
+        # 5x5 conv, 32 inputs, 64 outputs
+        'cov2': wc2,
+        # fully connected, 7*7*64 inputs, 1024 outputs
+        'fc1': wd1,
+        # 1024 inputs, 10 outputs (class prediction)
+        'fc2': wd2
+    }
     weights = {
         # 5x5 conv, 1 input, 32 outputs
         'cov1': tf.Variable(wc1,tf.float32),
@@ -90,7 +99,7 @@ def initialize_variables(parent_dir, model_number, weights_mask, rmask, profile 
         'fc1': tf.Variable(bd1,tf.float32),
         'fc2': tf.Variable(bout,tf.float32)
     }
-    return (weights, biases)
+    return (weights, biases, np_weights)
 # weights = {
 #     'cov1': tf.Variable(tf.truncated_normal([5, 5, NUM_CHANNELS, 32], stddev=0.1)),
 #     'cov2': tf.Variable(tf.truncated_normal([5, 5, 32, 64], stddev=0.1)),
@@ -449,19 +458,19 @@ def main(argv = None):
         x_image = tf.reshape(x,[-1,28,28,1])
         if (TRAIN == True):
             print("check r mask")
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
+            (weights, biases, np_weights) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
         elif (PROFILE == True):
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
+            (weights, biases, np_weights) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
         elif (PRUNE_ONLY == True):
             print(first_read)
             if (first_read == True):
                 print(file_name)
-                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
+                (weights, biases, np_weights) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
             else:
                 rfile_name = compute_file_name(cRates)
-                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name, weights_mask, r_mask, PROFILE, TRAIN)
+                (weights, biases, np_weights) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name, weights_mask, r_mask, PROFILE, TRAIN)
         else:
-            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
+            (weights, biases, np_weights) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
             # (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
 
         # Construct model
@@ -480,7 +489,7 @@ def main(argv = None):
                 new_weights[key] = weights[key] * weights_mask[key]
         else:
             for key in keys:
-                std = np.std(weights[key].eval(session = tf.Session()))
+                std = np.std(np_weights[key])
                 new_weights[key] = weights[key] * weights_mask[key] + r_mask[key] * std * 0.5
 
         pred, pool = conv_network(x_image, new_weights, biases, keep_prob)
