@@ -480,7 +480,7 @@ def main(argv = None):
                 new_weights[key] = weights[key] * weights_mask[key]
         else:
             for key in keys:
-                std = np.std(weights[key])
+                std = np.std(weights[key].eval(session = tf.Session()))
                 new_weights[key] = weights[key] * weights_mask[key] + r_mask[key] * std * 0.5
 
         pred, pool = conv_network(x_image, new_weights, biases, keep_prob)
