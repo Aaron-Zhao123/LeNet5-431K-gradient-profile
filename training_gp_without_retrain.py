@@ -315,6 +315,8 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
         else:
             grad_non_zeros = np.abs(grad_probs[key][grad_probs[key]!=0])
             perc_bar = 100 - recover_rates[index] * 100
+            print(grad_non_zeros)
+            print(perc_bar)
             threshold = np.percentile(grad_non_zeros,perc_bar)
         index += 1
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
@@ -522,7 +524,7 @@ def main(argv = None):
                 print("profile done")
                 perc_list = prune_info(weights, biases, 2)
 
-                perc_list = [item * 0.1 for item in perc_list]
+                perc_list = [(1 - item) * 0.05 for item in perc_list]
                 print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
                 print(non_zeros)
