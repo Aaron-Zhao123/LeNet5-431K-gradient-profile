@@ -533,11 +533,11 @@ def main(argv = None):
 
                 print('my masked grads')
                 non_zeros,size =calculate_non_zero_weights(grad_mask_val['cov2'])
-                print(non_zeros)
-                print(grad_mask_val['fc1'].shape)
-
-                print(collect_grads['fc1'])
-                print(grad_mask_val['fc1'])
+                # print(non_zeros)
+                # print(grad_mask_val['fc1'].shape)
+                #
+                # print(collect_grads['fc1'])
+                # print(grad_mask_val['fc1'])
 
                 recover_mask = recover_weights(weights_mask, grad_mask_val, perc_list)
                 print(file_name)
