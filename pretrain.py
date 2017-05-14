@@ -26,7 +26,7 @@ def compute_file_name(p):
 
 file_name_part = compute_file_name(cRates)
 parent_dir = 'assets_no_prune/'
-open_file_name = parent_dir + 'weights/weight' + file_name_part +'.pkl'
+open_file_name = parent_dir + 'weights/weightpt' + file_name_part +'.pkl'
 mask_file_name = parent_dir + 'masks/mask' + file_name_part + '.pkl'
 rmask_file_name = parent_dir + 'masks/rmask' + file_name_part + '.pkl'
 
