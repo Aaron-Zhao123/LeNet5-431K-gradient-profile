@@ -321,7 +321,7 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
         recover_mask[key].astype(int)
     mask_info(recover_mask)
 
-    if (threshold !- 0):
+    if (threshold != 0):
         sys.exit()
 
     return (recover_mask)
