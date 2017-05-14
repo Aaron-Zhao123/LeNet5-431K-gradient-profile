@@ -73,11 +73,6 @@ def initialize_variables(parent_dir, model_number, weights_mask, rmask, profile 
         wc2 = wc2.astype(np.float32)
         wd1 = wd1.astype(np.float32)
         out = out.astype(np.float32)
-    np_weights = {
-        'cov1': wc1,
-        'cov2': wc2,
-        'fc1': wd1,
-        'fc2': out}
     weights = {
         # 5x5 conv, 1 input, 32 outputs
         'cov1': tf.Variable(wc1,tf.float32),
@@ -95,7 +90,7 @@ def initialize_variables(parent_dir, model_number, weights_mask, rmask, profile 
         'fc1': tf.Variable(bd1,tf.float32),
         'fc2': tf.Variable(bout,tf.float32)
     }
-    return (weights, biases, np_weights)
+    return (weights, biases)
 # weights = {
 #     'cov1': tf.Variable(tf.truncated_normal([5, 5, NUM_CHANNELS, 32], stddev=0.1)),
 #     'cov2': tf.Variable(tf.truncated_normal([5, 5, 32, 64], stddev=0.1)),
@@ -346,7 +341,7 @@ def recover_weights(weights_mask, grad_probs, recover_rates, f_name):
             threshold = np.percentile(np.abs(grad_probs[key]),perc_bar)
         index += 1
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
-        recover_mask[key] = recover_mask[key] * np.sign(grad_probs[key])
+        # recover_mask[key] = recover_mask[key] * np.sign(grad_probs[key])
         test_mask[key] = np.logical_or(recover_mask[key], weights_mask[key])
         recover_mask[key].astype(int)
     mask_info(test_mask)
@@ -441,7 +436,7 @@ def main(argv = None):
             keys = ['cov1', 'cov2', 'fc1', 'fc2']
             for key in keys:
                 weights_mask[key] = hard_mask[key]
-                # weights_mask[key] = np.logical_or(hard_mask[key], r_mask[key])
+                weights_mask[key] = np.logical_or(hard_mask[key], r_mask[key])
 
         mnist = input_data.read_data_sets("MNIST.data/", one_hot = True)
         # tf Graph input
@@ -454,19 +449,19 @@ def main(argv = None):
         x_image = tf.reshape(x,[-1,28,28,1])
         if (TRAIN == True):
             print("check r mask")
-            (weights, biases, np_weights) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
         elif (PROFILE == True):
-            (weights, biases, np_weights) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
         elif (PRUNE_ONLY == True):
             print(first_read)
             if (first_read == True):
                 print(file_name)
-                (weights, biases, np_weights) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
+                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
             else:
                 rfile_name = compute_file_name(cRates)
-                (weights, biases, np_weights) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name, weights_mask, r_mask, PROFILE, TRAIN)
+                (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+rfile_name, weights_mask, r_mask, PROFILE, TRAIN)
         else:
-            (weights, biases, np_weights) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
+            (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weightpt'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
             # (weights, biases) = initialize_variables(parent_dir + 'weights/', 'weight'+file_name, weights_mask, r_mask, PROFILE, TRAIN)
 
         # Construct model
@@ -485,8 +480,7 @@ def main(argv = None):
                 new_weights[key] = weights[key] * weights_mask[key]
         else:
             for key in keys:
-                std = np.std(np_weights[key])
-                new_weights[key] = weights[key] * weights_mask[key] + r_mask[key] * std * 0.5
+                new_weights[key] = weights[key] * weights_mask[key]
 
         pred, pool = conv_network(x_image, new_weights, biases, keep_prob)
 
@@ -559,7 +553,7 @@ def main(argv = None):
                 print("profile done")
                 perc_list = prune_info(pre_profile_weights, biases, 2)
 
-                perc_list = [(1 - item) * 0.1 for item in perc_list]
+                perc_list = [(1 - item) * 0.05 for item in perc_list]
                 # print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
                 # print(non_zeros)
