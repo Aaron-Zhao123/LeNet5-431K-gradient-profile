@@ -302,13 +302,15 @@ def recover_mask_gen(gradients, recover_rate):
 
 
 def recover_weights(weights_mask, grad_probs, recover_rates):
+    index = 0
     keys = ['cov1','cov2','fc1','fc2']
     mask_info(weights_mask)
     prev = weights_mask['fc1']
     recover_mask = {}
 
     for key in keys:
-        threshold = np.percentile(np.abs(grad_probs[key]),recover_rates[key])
+        threshold = np.percentile(np.abs(grad_probs[key]),int recover_rates[index])
+        index ++ 
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
         recover_mask[key].astype(int)
     mask_info(recover_mask)
