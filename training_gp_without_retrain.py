@@ -518,12 +518,14 @@ def main(argv = None):
                             index = index + 1
                 # weights inicated 1 in the hard mask can never be recovered
                 grad_mask_val = {}
+                pre_profile_weights = {}
                 keys = ['cov1','cov2','fc1','fc2']
                 for key in keys:
                     grad_mask_val[key] = np.multiply (collect_grads[key],(1 - weights_mask[key]))
+                    pre_profile_weights[key] = weights[key] * weights_mask[key]
                 non_zeros,size =calculate_non_zero_weights(1-weights_mask['cov2'])
                 print("profile done")
-                perc_list = prune_info(weights, biases, 2)
+                perc_list = prune_info(pre_profile_weights, biases, 2)
 
                 perc_list = [(1 - item) * 0.05 for item in perc_list]
                 print('my grads')
