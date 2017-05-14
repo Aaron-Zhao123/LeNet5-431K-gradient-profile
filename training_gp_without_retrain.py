@@ -309,8 +309,8 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
     recover_mask = {}
 
     for key in keys:
-        threshold = np.percentile(np.abs(grad_probs[key]),int recover_rates[index])
-        index ++ 
+        threshold = np.percentile(np.abs(grad_probs[key]),recover_rates[index])
+        index ++
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
         recover_mask[key].astype(int)
     mask_info(recover_mask)
