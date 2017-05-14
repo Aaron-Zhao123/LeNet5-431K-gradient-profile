@@ -301,7 +301,7 @@ def recover_mask_gen(gradients, recover_rate):
     return mask
 
 
-def recover_weights(weights_mask, grad_probs, recover_rates):
+def recover_weights(weights_mask, grad_probs, recover_rates, f_name):
 
     with open(f_name+'.pkl','rb') as f:
         wc1, wc2, wd1, out, bc1, bc2, bd1, bout = pickle.load(f)
@@ -565,7 +565,8 @@ def main(argv = None):
                 # print(collect_grads['fc1'])
                 # print(grad_mask_val['fc1'])
 
-                recover_mask = recover_weights(weights_mask, grad_mask_val, perc_list)
+                f_dir = parent_dir + 'weights/' + 'weightpt'+file_name
+                recover_mask = recover_weights(weights_mask, grad_mask_val, perc_list, f_dir)
                 print(file_name)
                 with open(parent_dir + 'masks/' + 'rmask' + file_name + '.pkl','wb') as f:
                     pickle.dump(recover_mask, f)
