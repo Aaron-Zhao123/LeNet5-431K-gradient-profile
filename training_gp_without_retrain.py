@@ -307,6 +307,7 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
     mask_info(weights_mask)
     prev = weights_mask['fc1']
     recover_mask = {}
+    test_mask = {}
     print("recover rates")
     print(recover_rates)
     for key in keys:
@@ -320,9 +321,11 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
             threshold = np.percentile(grad_non_zeros,perc_bar)
         index += 1
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
-        recover_mask[key] = np.logical_or(recover_mask[key], weights_mask[key])
+        test_mask[key] = np.logical_or(recover_mask[key], weights_mask[key])
         recover_mask[key].astype(int)
     mask_info(recover_mask)
+
+    print(np.logical_and(recover_mask['fc1'], weights_mask['fc1']).sum())
 
     if (threshold != 0):
         sys.exit()
