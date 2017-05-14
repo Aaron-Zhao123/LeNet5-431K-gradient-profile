@@ -8,7 +8,7 @@ np.set_printoptions(precision=128)
 # open_file_name = 'weights1'+'.pkl'
 # open_file_name = 'weights_log/pcov95pfc95'+'.pkl'
 # open_file_name = 'weights_log_asyn/pcov93pcov93pfc100pfc93'+'.pkl'
-cRates = {'cov1':0.,'cov2':0.,'fc1': 3.,'fc2': 0.}
+cRates = {'cov1':5.,'cov2':5.,'fc1': 5.,'fc2': 5.}
 open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
 open_file_name = 'weights_log/pcov90pcov90pfc996pfc90.pkl'
 open_file_name = 'weights/weightcov10cov17fc44fc10.pkl'
@@ -25,9 +25,10 @@ def compute_file_name(p):
     return name
 
 file_name_part = compute_file_name(cRates)
-open_file_name = 'weights/weight' + file_name_part +'.pkl'
-mask_file_name = 'masks/mask' + file_name_part + '.pkl'
-rmask_file_name = 'masks/rmask' + file_name_part + '.pkl'
+parent_dir = 'assets_no_prune/'
+open_file_name = parent_dir + 'weights/weight' + file_name_part +'.pkl'
+mask_file_name = parent_dir + 'masks/mask' + file_name_part + '.pkl'
+rmask_file_name = parent_dir + 'masks/rmask' + file_name_part + '.pkl'
 
 
 MASK_ENABLE = True
