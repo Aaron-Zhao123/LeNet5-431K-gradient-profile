@@ -510,7 +510,8 @@ def main(argv = None):
                 non_zeros,size =calculate_non_zero_weights(1-weights_mask['cov2'])
                 print("profile done")
                 perc_list = prune_info(weights, biases, 2)
-                perc_list = perc_list * 0.1
+
+                perc_list = [item * 0.1 for item in perc_list]
                 print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
                 print(non_zeros)
