@@ -75,13 +75,9 @@ def initialize_variables(parent_dir, model_number, weights_mask, rmask, profile 
         out = out.astype(np.float32)
     np_weights = {
         'cov1': wc1,
-        # 5x5 conv, 32 inputs, 64 outputs
         'cov2': wc2,
-        # fully connected, 7*7*64 inputs, 1024 outputs
         'fc1': wd1,
-        # 1024 inputs, 10 outputs (class prediction)
-        'fc2': wd2
-    }
+        'fc2': out}
     weights = {
         # 5x5 conv, 1 input, 32 outputs
         'cov1': tf.Variable(wc1,tf.float32),
