@@ -312,6 +312,7 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
         recover_mask[key].astype(int)
     mask_info(recover_mask)
+    
     return (recover_mask)
 '''
 Define a training strategy
@@ -427,6 +428,7 @@ def main(argv = None):
 
         keys = ['cov1','cov2','fc1','fc2']
         new_weights = {}
+
         if (PRUNE_ONLY or PROFILE):
             for key in keys:
                 new_weights[key] = weights[key]
@@ -506,9 +508,9 @@ def main(argv = None):
                 for key in keys:
                     grad_mask_val[key] = np.multiply (collect_grads[key],(1 - weights_mask[key]))
                 non_zeros,size =calculate_non_zero_weights(1-weights_mask['cov2'])
-                # print(weights_mask['cov2'].shape)
                 print("profile done")
-                _ = prune_info(weights, biases, 0)
+                perc_list = prune_info(weights, biases, 2)
+                perc_list = perc_list * 0.1
                 print('my grads')
                 non_zeros,size =calculate_non_zero_weights(collect_grads['cov2'])
                 print(non_zeros)
@@ -522,7 +524,7 @@ def main(argv = None):
                 print(collect_grads['fc1'])
                 print(grad_mask_val['fc1'])
 
-                recover_mask = recover_weights(weights_mask, grad_mask_val, recover_rates)
+                recover_mask = recover_weights(weights_mask, grad_mask_val, perc_list)
                 print(file_name)
                 with open(parent_dir + 'masks/' + 'rmask' + file_name + '.pkl','wb') as f:
                     pickle.dump(recover_mask, f)
@@ -619,30 +621,37 @@ def weights_info(iter,  c, train_accuracy, acc_mean):
 def prune_info(weights, biases, counting):
     t_non_zeros = 0
     t_total = 0
-    if (counting == 0):
+    perc_list = []
+    if (counting == 0 or counting == 2):
         (non_zeros, total) = calculate_non_zero_weights(weights['cov1'].eval())
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['cov1'].eval())
         t_total += total + total_b
         t_non_zeros += non_zeros + non_zeros_b
+        perc_list.append((t_non_zeros / (float) t_total))
         print('cov1 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
         (non_zeros, total) = calculate_non_zero_weights(weights['cov2'].eval())
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['cov2'].eval())
         t_total += total + total_b
         t_non_zeros += non_zeros + non_zeros_b
+        perc_list.append((t_non_zeros / (float) t_total))
         print('cov2 has prunned {} percent of its weights'.format((total-non_zeros)*100/float(total)))
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['fc1'].eval())
         t_total += total + total_b
         t_non_zeros += non_zeros + non_zeros_b
+        perc_list.append((t_non_zeros / (float) t_total))
         print('fc1 has prunned {} percent of its weights'.format((total-non_zeros)*100/float(total)))
         (non_zeros, total) = calculate_non_zero_weights(weights['fc2'].eval())
         (non_zeros_b, total_b) = calculate_non_zero_weights(biases['fc1'].eval())
         t_total += total + total_b
         t_non_zeros += non_zeros + non_zeros_b
+        perc_list.append((t_non_zeros / (float) t_total))
         print('fc2 has prunned {} percent of its weights'.format((total-non_zeros)*100/total))
     if (counting == 1):
         (non_zeros, total) = calculate_non_zero_weights(weights['fc1'].eval())
         print('take fc1 as example, {} nonzeros, in total {} weights'.format(non_zeros, total))
+    if (counting = 2):
+        return perc_list
     if (t_total == 0):
         perc = 0
     else:
