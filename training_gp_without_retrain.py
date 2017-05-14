@@ -302,12 +302,32 @@ def recover_mask_gen(gradients, recover_rate):
 
 
 def recover_weights(weights_mask, grad_probs, recover_rates):
+
+    with open(f_name+'.pkl','rb') as f:
+        wc1, wc2, wd1, out, bc1, bc2, bd1, bout = pickle.load(f)
+
     index = 0
     keys = ['cov1','cov2','fc1','fc2']
     mask_info(weights_mask)
     prev = weights_mask['fc1']
     recover_mask = {}
     test_mask = {}
+
+    print('check')
+    grad_pos = grad_probs > 0
+    grad_neg = grad_probs < 0
+
+    value_pos = (wd1* weights_mask['fc1']) > 0
+    value_neg = (wd1* weights_mask['fc1']) < 0
+
+    pos_total = value_pos.sum()
+    neg_total = value_neg.sum()
+    pos_confirmed_total = (grad_pos == value_pos.astype(int)).sum()
+    neg_confirmed_total = (grad_neg == value_neg.astype(int)).sum()
+    print('{},{}'.format(pos_total, pos_confirmed_total))
+    print('{},{}'.format(neg_total, neg_confirmed_total))
+
+
     print("recover rates")
     print(recover_rates)
     for key in keys:
@@ -328,8 +348,8 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
 
     # print(np.logical_and(recover_mask['fc1'], weights_mask['fc1']).sum())
 
-    # if (threshold != 0):
-    #     sys.exit()
+    if (threshold != 0):
+        sys.exit()
 
     return (recover_mask)
 '''
