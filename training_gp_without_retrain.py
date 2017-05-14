@@ -313,11 +313,15 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
         if (recover_rates[index] == 0):
             threshold = 0
         else:
-            threshold = np.percentile(np.abs(grad_probs[key]),recover_rates[index])
+            grad_non_zeros = np.abs(grad_probs[key][grad_probs[key]!=0])
+            threshold = np.percentile(grad_non_zeros),100 - recover_rates[index] * 100)
         index += 1
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
         recover_mask[key].astype(int)
     mask_info(recover_mask)
+
+    if (threshold !- 0):
+        sys.exit()
 
     return (recover_mask)
 '''
