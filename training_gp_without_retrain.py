@@ -323,7 +323,7 @@ def recover_weights(weights_mask, grad_probs, recover_rates):
         recover_mask[key] = np.abs(grad_probs[key]) > (threshold)
         test_mask[key] = np.logical_or(recover_mask[key], weights_mask[key])
         recover_mask[key].astype(int)
-    mask_info(recover_mask)
+    mask_info(test_mask)
 
     print(np.logical_and(recover_mask['fc1'], weights_mask['fc1']).sum())
 
