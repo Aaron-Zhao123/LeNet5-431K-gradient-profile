@@ -178,7 +178,7 @@ def compute_file_name(p):
     name += 'cov' + str(int(round(p['cov2'] * 10)))
     name += 'fc' + str(int(round(p['fc1'] * 10)))
     name += 'fc' + str(int(round(p['fc2'] * 10)))
-    return namee
+    return name
 
 def prune_weights(weights, biases, org_masks, cRates, parent_dir):
     keys = ['cov1','cov2','fc1','fc2']
