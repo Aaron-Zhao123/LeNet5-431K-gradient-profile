@@ -18,10 +18,10 @@ cRates = {'cov1':0.,'cov2':0.,'fc1': 3.5,'fc2': 0.}
 f_name = compute_file_name(cRates)
 learning_rate = 1e-4
 print(f_name)
-while (cRates['fc2'] <= 4.5):
+while (cRates['cov2'] <= 2.5):
     iter_cnt = 0
-    # cRates['cov2'] = cRates['cov2'] + .2
-    cRates['fc1'] = cRates['fc1'] + 0.1
+    cRates['cov2'] = cRates['cov2'] + .2
+    # cRates['fc1'] = cRates['fc1'] + 0.1
     # cRates['cov1'] = cRates['cov1'] + 0.2
     # cRates['fc2'] = cRates['fc2'] + 0.2
     # rRates['fc1'] = rRates['fc1'] + 0.
