@@ -174,11 +174,11 @@ def dynamic_surgery(weight, pruning_th, recover_percent):
 
 def compute_file_name(p):
     name = ''
-    name += 'cov' + str(int(p['cov1'] * 10))
-    name += 'cov' + str(int(p['cov2'] * 10))
-    name += 'fc' + str(int(p['fc1'] * 10))
-    name += 'fc' + str(int(p['fc2'] * 10))
-    return name
+    name += 'cov' + str(int(round(p['cov1'] * 10)))
+    name += 'cov' + str(int(round(p['cov2'] * 10)))
+    name += 'fc' + str(int(round(p['fc1'] * 10)))
+    name += 'fc' + str(int(round(p['fc2'] * 10)))
+    return namee
 
 def prune_weights(weights, biases, org_masks, cRates, parent_dir):
     keys = ['cov1','cov2','fc1','fc2']
