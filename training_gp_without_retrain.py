@@ -64,15 +64,15 @@ def initialize_variables(parent_dir, model_number, weights_mask, rmask, profile 
         wc2 = wc2.astype(np.float32)
         wd1 = wd1.astype(np.float32)
         out = out.astype(np.float32)
-    elif (train == True):
-        wc1 = wc1 * (1 - rmask['cov1'])
-        wc2 = wc2 * (1 - rmask['cov2'])
-        wd1 = wd1 * (1 - rmask['fc1'])
-        out = out * (1 - rmask['fc2'])
-        wc1 = wc1.astype(np.float32)
-        wc2 = wc2.astype(np.float32)
-        wd1 = wd1.astype(np.float32)
-        out = out.astype(np.float32)
+    # elif (train == True):
+    #     wc1 = wc1 * (1 - rmask['cov1'])
+    #     wc2 = wc2 * (1 - rmask['cov2'])
+    #     wd1 = wd1 * (1 - rmask['fc1'])
+    #     out = out * (1 - rmask['fc2'])
+    #     wc1 = wc1.astype(np.float32)
+    #     wc2 = wc2.astype(np.float32)
+    #     wd1 = wd1.astype(np.float32)
+    #     out = out.astype(np.float32)
     weights = {
         # 5x5 conv, 1 input, 32 outputs
         'cov1': tf.Variable(wc1,tf.float32),

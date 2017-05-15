@@ -34,7 +34,7 @@ while (cRates['fc1'] <= 5.):
     ('-learning_rate', learning_rate),
     ('-first_read', True)
     ]
-    # _ = training_gp_without_retrain.main(param)
+    _ = training_gp_without_retrain.main(param)
 
     # compute the name
     f_name = compute_file_name(cRates)
@@ -50,7 +50,7 @@ while (cRates['fc1'] <= 5.):
     ('-recover_rate', rRates),
     ('-learning_rate', learning_rate)
     ]
-    # _ = training_gp_without_retrain.main(param)
+    _ = training_gp_without_retrain.main(param)
 
     # # Profile and redefine mask
     param = [
@@ -63,7 +63,7 @@ while (cRates['fc1'] <= 5.):
     ('-recover_rate', rRates),
     ('-learning_rate', learning_rate)
     ]
-    # _ = training_gp_without_retrain.main(param)
+    _ = training_gp_without_retrain.main(param)
     # TEST
     param = [
     ('-thresholds',cRates),
